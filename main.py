@@ -1,8 +1,8 @@
 import pandas as pd
 import os
-from io import BytesIO
 import streamlit as st
 import streamlit_authenticator as stauth
+from io import BytesIO  # Asegúrate de importar esto si no está ya importado
 
 # Se llama a la contraseña desde secrets
 PASSWORD = st.secrets["password"]
@@ -10,7 +10,7 @@ PASSWORD = st.secrets["password"]
 # Configuración de las credenciales
 credentials = {
     "usernames": {
-        "USUARIO": {
+        "USUARIO": {  # Cambia 'USUARIO' por el nombre que deseas usar
             "name": "Nombre del Usuario",  # Cambia esto según sea necesario
             "password": PASSWORD  # Usando la contraseña desde st.secrets
         }
@@ -26,7 +26,7 @@ authenticator = stauth.Authenticate(
 )
 
 # Autenticación
-name, authentication_status = authenticator.login("Iniciar sesión", "main")
+name, authentication_status = authenticator.login("Iniciar sesión", "sidebar")  # Cambiado a 'sidebar'
 
 # Configuración del archivo de base de datos
 DATABASE_FILE = 'database.txt'
@@ -137,6 +137,4 @@ if authentication_status:
 
 else:
     st.warning("Por favor ingrese sus credenciales.")  # Mensaje si la autenticación falla
-
-
 
