@@ -2,8 +2,6 @@ import streamlit as st
 import pandas as pd
 import os
 
-# Contraseña inicial para usar la app
-PASSWORD = "Ejercito2024"
 
 # Archivo de base de datos
 DATABASE_FILE = 'database.txt'
