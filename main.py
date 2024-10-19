@@ -2,7 +2,8 @@ import streamlit as st
 import pandas as pd
 import os
 from io import BytesIO
-
+# Se llama a la contraseña
+PASSWORD = st.secrets["password"]
 # Configuración del archivo de base de datos
 DATABASE_FILE = 'database.txt'
 
@@ -55,10 +56,6 @@ page = st.sidebar.radio("Seleccione una página:", ["Registrar Placa", "Buscar P
 if page == "Registrar Placa":
     # Registro de nueva placa
     st.subheader("Registrar Nueva Placa")
-    try:
-        st.write(f'Esta es la contraseña: {st.secrets["password"]}')
-    except Expection as e:
-        st.write('Buen intento')
     placa = st.text_input("Placa del Vehículo:")
     nombre = st.text_input("Nombre del Dueño:")
     tipo = st.selectbox("Tipo de Vehículo:", ["Policía", "Ejército", "Fuerza Aérea", "Naval"])
