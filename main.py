@@ -26,7 +26,7 @@ authenticator = stauth.Authenticate(
 )
 
 # Autenticación
-name, authentication_status = authenticator.login("Iniciar sesión", "sidebar")  # Cambiado a 'sidebar'
+name, authentication_status = authenticator.login()  # Cambiado a 'sidebar'
 
 # Configuración del archivo de base de datos
 DATABASE_FILE = 'database.txt'
