@@ -25,7 +25,10 @@ def filter_by_type(df, tipo):
 
 # Función para crear el archivo Excel descargable
 def download_excel(df, tipo="Registro completo"):
-    return df.to_excel(f"{tipo}.xlsx", index=False)
+    output = pd.ExcelWriter(f"{tipo}.xlsx", engine='xlsxwriter')
+    df.to_excel(output, index=False)
+    output.save()
+    return output
 
 # Iniciar la app con autenticación de contraseña
 st.title("Sistema de Registro de Placas de Vehículos")
@@ -36,13 +39,14 @@ if "authenticated" not in st.session_state:
 
 if not st.session_state.authenticated:
     password = st.text_input("Ingrese la contraseña:", type="password")
-    if password == PASSWORD:
-        st.session_state.authenticated = True
-        st.success("Contraseña correcta. Accediendo al sistema.")
-    else:
-        if password:
-            st.error("Contraseña incorrecta.")
+    if st.button("Iniciar sesión"):
+        if password == PASSWORD:
+            st.session_state.authenticated = True
+            st.success("Contraseña correcta. Accediendo al sistema.")
+        else:
+            st.error("Contraseña incorrecta. Inténtalo de nuevo.")
 else:
+    # Solo carga la app si el usuario está autenticado
     st.subheader("Registro de Placas de Vehículos")
 
     # Cargar la base de datos
