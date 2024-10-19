@@ -10,7 +10,7 @@ DATABASE_FILE = 'database.txt'
 
 # Función para leer la base de datos del archivo
 def load_data():
-    if os.path.exists(DATABASE_FILE):
+    if os.path.exists(DATABASE_FILE) and os.path.getsize(DATABASE_FILE) > 0:  # Verificar si el archivo existe y no está vacío
         return pd.read_csv(DATABASE_FILE, sep='|')
     else:
         return pd.DataFrame(columns=['Placa', 'Nombre', 'Tipo', 'Incidencias'])
@@ -28,7 +28,6 @@ def download_excel(df, tipo="Registro completo"):
     output = pd.ExcelWriter(f"{tipo}.xlsx", engine='xlsxwriter')
     df.to_excel(output, index=False)
     output.save()
-    return output
 
 # Iniciar la app con autenticación de contraseña
 st.title("Sistema de Registro de Placas de Vehículos")
@@ -98,17 +97,9 @@ else:
     
     if st.button("Descargar"):
         if download_option == "Registro completo":
-            st.download_button(
-                label="Descargar Registro Completo",
-                data=download_excel(data),
-                file_name="registro_completo.xlsx",
-                mime="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
-            )
+            download_excel(data)
+            st.success("Archivo de registro completo descargado.")
         else:
             filtered_data = filter_by_type(data, download_option)
-            st.download_button(
-                label=f"Descargar Registros de {download_option}",
-                data=download_excel(filtered_data, download_option),
-                file_name=f"registro_{download_option.lower()}.xlsx",
-                mime="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
-            )
+            download_excel(filtered_data, download_option)
+            st.success(f"Archivo de registros de {download_option} descargado.")
