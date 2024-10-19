@@ -6,7 +6,7 @@ import streamlit_authenticator as stauth
 
 # Configuración de usuarios
 usernames = ['USUARIO']  # Cambia esto por los nombres de usuario que desees
-passwords = [f'{st.secrets['password']}']  # Cambia esto por las contraseñas correspondientes
+passwords = [st.secrets['password']]  # Cambia esto por las contraseñas correspondientes
 names = ['Ejercito']  # Cambia esto por los nombres completos
 
 # Crear el autenticador
