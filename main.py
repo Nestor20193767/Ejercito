@@ -92,7 +92,8 @@ elif page == "Contadores":
         "Policía": len(filter_by_type(data, 'Policía')),
         "Ejército": len(filter_by_type(data, 'Ejército')),
         "Fuerza Aérea": len(filter_by_type(data, 'Fuerza Aérea')),
-        "Naval": len(filter_by_type(data, 'Naval'))
+        "Naval": len(filter_by_type(data, 'Naval')),
+        "Conteo Total de Placas": len(data)  # Sumar total de placas
     }
     
     # Menú desplegable para ver los contadores
