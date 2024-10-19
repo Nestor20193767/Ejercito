@@ -1,20 +1,32 @@
 import pandas as pd
 import os
+from io import BytesIO
 import streamlit as st
+import streamlit_authenticator as stauth
 
 # Se llama a la contraseña desde secrets
 PASSWORD = st.secrets["password"]
 
-# Función para autenticar al usuario
-def authenticate():
-    st.title("Autenticación")
-    password_input = st.text_input("Ingrese la contraseña:", type='password')
-    
-    if password_input == PASSWORD:
-        return True
-    else:
-        st.error("Contraseña incorrecta.")
-        return False
+# Configuración de las credenciales
+credentials = {
+    "usernames": {
+        "USUARIO": {
+            "name": "Nombre del Usuario",  # Cambia esto según sea necesario
+            "password": PASSWORD  # Usando la contraseña desde st.secrets
+        }
+    }
+}
+
+# Crear el objeto de autenticación
+authenticator = stauth.Authenticate(
+    credentials,
+    cookie_name="nombre_cookie",
+    cookie_key="clave_cookie",
+    cookie_expiry_days=30,
+)
+
+# Autenticación
+name, authentication_status = authenticator.login("Iniciar sesión", "main")
 
 # Configuración del archivo de base de datos
 DATABASE_FILE = 'database.txt'
@@ -43,8 +55,10 @@ def download_excel(data, download_option):
     st.download_button(f'Descargar {download_option}.xlsx', output, 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet')
 
 # Iniciar la app
-if authenticate():  # Solo si la autenticación es correcta, se procede
+if authentication_status:
+    st.success(f"Bienvenido, {name}!")  # Mensaje de bienvenida
     st.title("Sistema de Registro de Placas de Vehículos")
+    
     # Cargar la base de datos
     data = load_data()
     
@@ -120,5 +134,9 @@ if authenticate():  # Solo si la autenticación es correcta, se procede
             filtered_data = filter_by_type(data, download_option)
             download_excel(filtered_data, download_option)
             st.success(f"Archivo de registros de {download_option} descargado.")
+
+else:
+    st.warning("Por favor ingrese sus credenciales.")  # Mensaje si la autenticación falla
+
 
 
