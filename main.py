@@ -10,7 +10,7 @@ passwords = ['contraseña']  # Cambia esto por las contraseñas correspondientes
 names = ['Ejercito']  # Cambia esto por los nombres completos
 
 # Crear el autenticador
-authenticator = stauth.Authenticate(names, usernames, passwords, 'session_key', 'cookie_name', cookie_expiry_days=30)
+authenticator = stauth.Authenticate(names, usernames, passwords, 'session_key', 'cookie_name')
 
 # Verificar si el usuario está autenticado
 if authenticator.login('Iniciar sesión', 'main'):
