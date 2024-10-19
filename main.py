@@ -2,9 +2,6 @@ import streamlit as st
 import pandas as pd
 import os
 
-# Contraseña inicial para usar la app
-PASSWORD = st.secrets("PASSWORD")
-
 # Archivo de base de datos
 DATABASE_FILE = 'database.txt'
 
@@ -39,13 +36,16 @@ if "authenticated" not in st.session_state:
 if not st.session_state.authenticated:
     password = st.text_input("Ingrese la contraseña:", type="password")
     if st.button("Iniciar sesión"):
+        # Cargar la contraseña desde los secretos
+        PASSWORD = st.secrets["password"]
         if password == PASSWORD:
             st.session_state.authenticated = True
             st.success("Contraseña correcta. Accediendo al sistema.")
         else:
             st.error("Contraseña incorrecta. Inténtalo de nuevo.")
-else:
-    # Solo carga la app si el usuario está autenticado
+
+# Solo carga la app si el usuario está autenticado
+if st.session_state.authenticated:
     st.subheader("Registro de Placas de Vehículos")
 
     # Cargar la base de datos
@@ -103,4 +103,5 @@ else:
             filtered_data = filter_by_type(data, download_option)
             download_excel(filtered_data, download_option)
             st.success(f"Archivo de registros de {download_option} descargado.")
+
 
