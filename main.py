@@ -2,6 +2,8 @@ import streamlit as st
 import pandas as pd
 import os
 
+# Contraseña inicial para usar la app
+PASSWORD = st.secrets("PASSWORD")
 
 # Archivo de base de datos
 DATABASE_FILE = 'database.txt'
@@ -101,3 +103,4 @@ else:
             filtered_data = filter_by_type(data, download_option)
             download_excel(filtered_data, download_option)
             st.success(f"Archivo de registros de {download_option} descargado.")
+
