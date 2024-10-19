@@ -6,17 +6,6 @@ from io import BytesIO
 # Se llama a la contraseña
 PASSWORD = st.secrets["password"]
 
-# Función para autenticar al usuario
-def authenticate():
-    st.title("Autenticación")
-    password_input = st.text_input("Ingrese la contraseña:", type='password')
-    
-    if password_input == PASSWORD:
-        return True
-    else:
-        st.error("Contraseña incorrecta.")
-        return False
-
 # Configuración del archivo de base de datos
 DATABASE_FILE = 'database.txt'
 
@@ -57,7 +46,20 @@ def download_excel(data, download_option):
     )
 
 # Iniciar la app
-if authenticate():  # Solo si la autenticación es correcta, se procede
+if 'authenticated' not in st.session_state:
+    st.session_state.authenticated = False
+
+if not st.session_state.authenticated:
+    st.title("Autenticación")
+    password_input = st.text_input("Ingrese la contraseña:", type='password')
+    
+    if st.button("Iniciar Sesión"):
+        if password_input == PASSWORD:
+            st.session_state.authenticated = True
+            st.success("¡Autenticación exitosa!")
+        else:
+            st.error("Contraseña incorrecta.")
+else:
     st.title("Sistema de Registro de Placas de Vehículos")
 
     # Cargar la base de datos
