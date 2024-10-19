@@ -1,6 +1,7 @@
 import streamlit as st
 import pandas as pd
 import os
+from io import BytesIO
 
 # Archivo de base de datos
 DATABASE_FILE = 'database.txt'
@@ -20,11 +21,24 @@ def save_data(df):
 def filter_by_type(df, tipo):
     return df[df['Tipo'] == tipo]
 
-# Función para crear el archivo Excel descargable
-def download_excel(df, tipo="Registro completo"):
-    output = pd.ExcelWriter(f"{tipo}.xlsx", engine='xlsxwriter')
-    df.to_excel(output, index=False)
-    output.save()
+# Función para descargar el DataFrame como archivo Excel
+def download_excel(data):
+    if data.empty:
+        st.warning("No hay datos para descargar.")
+        return
+    # Crear un objeto BytesIO
+    output = BytesIO()
+    with pd.ExcelWriter(output, engine='xlsxwriter') as writer:
+        data.to_excel(writer, index=False, sheet_name='Sheet1')
+    # Posicionar el puntero al principio del archivo
+    output.seek(0)
+    # Descargar el archivo
+    st.download_button(
+        label="Descargar Excel",
+        data=output,
+        file_name='database.xlsx',
+        mime='application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'
+    )
 
 # Iniciar la app
 st.title("Sistema de Registro de Placas de Vehículos")
