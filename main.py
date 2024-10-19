@@ -26,82 +26,62 @@ def download_excel(df, tipo="Registro completo"):
     df.to_excel(output, index=False)
     output.save()
 
-# Iniciar la app con autenticación de contraseña
+# Iniciar la app
 st.title("Sistema de Registro de Placas de Vehículos")
 
-# Autenticación
-if "authenticated" not in st.session_state:
-    st.session_state.authenticated = False
+# Cargar la base de datos
+data = load_data()
 
-if not st.session_state.authenticated:
-    password = st.text_input("Ingrese la contraseña:", type="password")
-    if st.button("Iniciar sesión"):
-        # Cargar la contraseña desde los secretos
-        PASSWORD = st.secrets["password"]
-        if password == PASSWORD:
-            st.session_state.authenticated = True
-            st.success("Contraseña correcta. Accediendo al sistema.")
-        else:
-            st.error("Contraseña incorrecta. Inténtalo de nuevo.")
+# Mostrar la cantidad de registros totales
+st.write(f"**Total de placas registradas: {len(data)}**")
 
-# Solo carga la app si el usuario está autenticado
-if st.session_state.authenticated:
-    st.subheader("Registro de Placas de Vehículos")
+# Contadores por tipo
+st.write(f"**Placas de Policía:** {len(filter_by_type(data, 'Policía'))}")
+st.write(f"**Placas de Ejército:** {len(filter_by_type(data, 'Ejército'))}")
+st.write(f"**Placas de Fuerza Aérea:** {len(filter_by_type(data, 'Fuerza Aérea'))}")
+st.write(f"**Placas de Naval:** {len(filter_by_type(data, 'Naval'))}")
 
-    # Cargar la base de datos
-    data = load_data()
+# Registro de nueva placa
+st.subheader("Registrar Nueva Placa")
+placa = st.text_input("Placa del Vehículo:")
+nombre = st.text_input("Nombre del Dueño:")
+tipo = st.selectbox("Tipo de Vehículo:", ["Policía", "Ejército", "Fuerza Aérea", "Naval"])
+incidencias = st.number_input("Número de Incidencias:", min_value=0, step=1)
 
-    # Mostrar la cantidad de registros totales
-    st.write(f"**Total de placas registradas: {len(data)}**")
-    
-    # Contadores por tipo
-    st.write(f"**Placas de Policía:** {len(filter_by_type(data, 'Policía'))}")
-    st.write(f"**Placas de Ejército:** {len(filter_by_type(data, 'Ejército'))}")
-    st.write(f"**Placas de Fuerza Aérea:** {len(filter_by_type(data, 'Fuerza Aérea'))}")
-    st.write(f"**Placas de Naval:** {len(filter_by_type(data, 'Naval'))}")
+if st.button("Registrar"):
+    if placa and nombre:
+        new_data = pd.DataFrame({
+            'Placa': [placa],
+            'Nombre': [nombre],
+            'Tipo': [tipo],
+            'Incidencias': [incidencias]
+        })
+        data = pd.concat([data, new_data], ignore_index=True)
+        save_data(data)
+        st.success(f"Placa {placa} registrada con éxito.")
+    else:
+        st.error("Debe completar todos los campos para registrar una nueva placa.")
 
-    # Registro de nueva placa
-    st.subheader("Registrar Nueva Placa")
-    placa = st.text_input("Placa del Vehículo:")
-    nombre = st.text_input("Nombre del Dueño:")
-    tipo = st.selectbox("Tipo de Vehículo:", ["Policía", "Ejército", "Fuerza Aérea", "Naval"])
-    incidencias = st.number_input("Número de Incidencias:", min_value=0, step=1)
+# Buscar placas registradas
+st.subheader("Buscar Placa Registrada")
+search_placa = st.text_input("Buscar por Placa:")
+if st.button("Buscar"):
+    result = data[data['Placa'] == search_placa]
+    if not result.empty:
+        st.write(result)
+    else:
+        st.error("Placa no encontrada.")
 
-    if st.button("Registrar"):
-        if placa and nombre:
-            new_data = pd.DataFrame({
-                'Placa': [placa],
-                'Nombre': [nombre],
-                'Tipo': [tipo],
-                'Incidencias': [incidencias]
-            })
-            data = pd.concat([data, new_data], ignore_index=True)
-            save_data(data)
-            st.success(f"Placa {placa} registrada con éxito.")
-        else:
-            st.error("Debe completar todos los campos para registrar una nueva placa.")
+# Descargar registros filtrados o completos
+st.subheader("Descargar Registros")
+download_option = st.selectbox("Seleccione qué registros desea descargar:", ["Registro completo", "Policía", "Ejército", "Fuerza Aérea", "Naval"])
 
-    # Buscar placas registradas
-    st.subheader("Buscar Placa Registrada")
-    search_placa = st.text_input("Buscar por Placa:")
-    if st.button("Buscar"):
-        result = data[data['Placa'] == search_placa]
-        if not result.empty:
-            st.write(result)
-        else:
-            st.error("Placa no encontrada.")
-
-    # Descargar registros filtrados o completos
-    st.subheader("Descargar Registros")
-    download_option = st.selectbox("Seleccione qué registros desea descargar:", ["Registro completo", "Policía", "Ejército", "Fuerza Aérea", "Naval"])
-    
-    if st.button("Descargar"):
-        if download_option == "Registro completo":
-            download_excel(data)
-            st.success("Archivo de registro completo descargado.")
-        else:
-            filtered_data = filter_by_type(data, download_option)
-            download_excel(filtered_data, download_option)
-            st.success(f"Archivo de registros de {download_option} descargado.")
-
+if st.button("Descargar"):
+    if download_option == "Registro completo":
+        download_excel(data)
+        st.success("Archivo de registro completo descargado.")
+    else:
+        filtered_data = filter_by_type(data, download_option)
+        download_excel(filtered_data, download_option)
+        st.success(f"Archivo de registros de {download_option} descargado.")
 
