@@ -22,7 +22,7 @@ def filter_by_type(df, tipo):
     return df[df['Tipo'] == tipo]
 
 # Función para descargar el DataFrame como archivo Excel
-def download_excel(data):
+def download_excel(data, download_option):
     if data.empty:
         st.warning("No hay datos para descargar.")
         return
@@ -32,11 +32,13 @@ def download_excel(data):
         data.to_excel(writer, index=False, sheet_name='Sheet1')
     # Posicionar el puntero al principio del archivo
     output.seek(0)
+    # Determina el nombre del archivo en función de la opción de descarga
+    file_name = f'database_{download_option}.xlsx' if download_option else 'database.xlsx'
     # Descargar el archivo
     st.download_button(
         label="Descargar Excel",
         data=output,
-        file_name='database.xlsx',
+        file_name=file_name,
         mime='application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'
     )
 
@@ -92,10 +94,11 @@ download_option = st.selectbox("Seleccione qué registros desea descargar:", ["R
 
 if st.button("Descargar"):
     if download_option == "Registro completo":
-        download_excel(data)
+        download_excel(data, download_option)
         st.success("Archivo de registro completo descargado.")
     else:
         filtered_data = filter_by_type(data, download_option)
         download_excel(filtered_data, download_option)
         st.success(f"Archivo de registros de {download_option} descargado.")
+
 
