@@ -16,15 +16,7 @@ users = {
 
 # Crear una instancia del autenticador
 authenticator = stauth.Authenticate(
-    credentials={
-        "usernames": {
-            "USUARIO": {
-                "name": "USUARIO",
-                "password": PASSWORD,
-                "email": "usuario@example.com"  # Asegúrate de agregar el campo 'email'
-            }
-        }
-    },
+    credentials={"usernames": {"USUARIO": {"name": "USUARIO", "password": PASSWORD, "email": "usuario@example.com"}}},
     cookie_name="authenticator_cookie",  # Nombre de la cookie
     key="authenticator_key",  # Clave secreta para la cookie
     cookie_expiry_days=30  # Caducidad de la cookie en 30 días
