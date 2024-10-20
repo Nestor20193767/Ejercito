@@ -4,7 +4,7 @@ import os
 from io import BytesIO
 
 # Configuración de la contraseña
-PASSWORD = st.secrets('password') # Cambia esto a la contraseña deseada
+PASSWORD = st.secrets['password'] # Cambia esto a la contraseña deseada
 
 # Función para mostrar la página principal
 def main_page():
