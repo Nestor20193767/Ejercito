@@ -23,11 +23,11 @@ authenticator = stauth.Authenticate(
 )
 
 # Autenticación
-name, authentication_status, username = authenticator.login(location="main")
-
+authentication_status = authenticator.login(location="main")
+# name, username
 if authentication_status:
     # Si la autenticación es exitosa
-    st.success(f"Bienvenido {name}!")
+    st.success(f"Bienvenido !")
 
     # Cargar la base de datos
     DATABASE_FILE = 'database.txt'
