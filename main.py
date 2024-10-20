@@ -1,56 +1,58 @@
+import streamlit as st
 import pandas as pd
 import os
 from io import BytesIO
-import streamlit as st
+import streamlit_authenticator as stauth
+from datetime import timedelta
 
-# este si funcniona pero no se borra la contra lebel
-# Se llama a la contraseña desde secrets
+# Configuración del usuario y contraseña (guardada en st.secrets)
+USER_NAME = "USUARIO"
 PASSWORD = st.secrets["password"]
 
-# Función para autenticar al usuario
-def authenticate():
-    st.title("Autenticación")
-    password_input = st.text_input("Ingrese la contraseña:", type="password")
-    if password_input == PASSWORD:
-        st.success("Autenticación exitosa.")
-        return True
-    elif password_input:
-        st.error("Contraseña incorrecta.")
-        return False
-    else:
-        return False
+# Lista de usuarios y contraseñas (en este caso, solo un usuario)
+users = {
+    "USUARIO": PASSWORD
+}
 
-# Configuración del archivo de base de datos
-DATABASE_FILE = 'database.txt'
+# Crear una instancia del autenticador
+authenticator = stauth.Authenticate(
+    credentials={"usernames": {"USUARIO": {"name": "USUARIO", "password": PASSWORD}}},
+    cookie_name="authenticator_cookie",  # Nombre de la cookie
+    key="authenticator_key",  # Clave secreta para la cookie
+    cookie_expiry_days=30  # Caducidad de la cookie en 30 días
+)
 
-# Cargar la base de datos
-def load_data():
-    if os.path.exists(DATABASE_FILE) and os.path.getsize(DATABASE_FILE) > 0:
-        return pd.read_csv(DATABASE_FILE, sep='|')
-    else:
-        return pd.DataFrame(columns=['Placa', 'Nombre', 'Tipo', 'Incidencias'])
+# Autenticación
+name, authentication_status, username = authenticator.login("Login", "main")
 
-# Guardar datos en el archivo
-def save_data(data):
-    data.to_csv(DATABASE_FILE, sep='|', index=False)
-
-# Filtrar por tipo
-def filter_by_type(data, tipo):
-    return data[data['Tipo'] == tipo]
-
-# Descargar datos como Excel
-def download_excel(data, download_option):
-    output = BytesIO()
-    with pd.ExcelWriter(output, engine='xlsxwriter') as writer:
-        data.to_excel(writer, index=False, sheet_name='Sheet1')
-    output.seek(0)
-    st.download_button(f'Descargar {download_option}.xlsx', output, 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet')
-
-# Iniciar la app
-if authenticate():  # Solo si la autenticación es correcta, se procede
-    st.title("Sistema de Registro de Placas de Vehículos")
+if authentication_status:
+    # Si la autenticación es exitosa
+    st.success(f"Bienvenido {name}!")
 
     # Cargar la base de datos
+    DATABASE_FILE = 'database.txt'
+
+    def load_data():
+        if os.path.exists(DATABASE_FILE) and os.path.getsize(DATABASE_FILE) > 0:
+            return pd.read_csv(DATABASE_FILE, sep='|')
+        else:
+            return pd.DataFrame(columns=['Placa', 'Nombre', 'Tipo', 'Incidencias'])
+
+    def save_data(data):
+        data.to_csv(DATABASE_FILE, sep='|', index=False)
+
+    def filter_by_type(data, tipo):
+        return data[data['Tipo'] == tipo]
+
+    def download_excel(data, download_option):
+        output = BytesIO()
+        with pd.ExcelWriter(output, engine='xlsxwriter') as writer:
+            data.to_excel(writer, index=False, sheet_name='Sheet1')
+        output.seek(0)
+        st.download_button(f'Descargar {download_option}.xlsx', output, 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet')
+
+    # Iniciar la app
+    st.title("Sistema de Registro de Placas de Vehículos")
     data = load_data()
 
     # Crear un menú de navegación
@@ -58,7 +60,6 @@ if authenticate():  # Solo si la autenticación es correcta, se procede
     page = st.sidebar.radio("Seleccione una página:", ["Registrar Placa", "Buscar Placa", "Contadores", "Mostrar Base de Datos"])
 
     if page == "Registrar Placa":
-        # Registro de nueva placa
         st.subheader("Registrar Nueva Placa")
         placa = st.text_input("Placa del Vehículo:")
         nombre = st.text_input("Nombre del Dueño:")
@@ -78,9 +79,8 @@ if authenticate():  # Solo si la autenticación es correcta, se procede
                 st.success(f"Placa {placa} registrada con éxito.")
             else:
                 st.error("Debe completar todos los campos para registrar una nueva placa.")
-    
+
     elif page == "Buscar Placa":
-        # Buscar placas registradas
         st.subheader("Buscar Placa Registrada")
         search_placa = st.text_input("Buscar por Placa:")
         if st.button("Buscar"):
@@ -89,34 +89,29 @@ if authenticate():  # Solo si la autenticación es correcta, se procede
                 st.write(result)
             else:
                 st.error("Placa no encontrada.")
-    
+
     elif page == "Contadores":
-        # Contadores por tipo
         st.subheader("Contadores de Placas por Tipo")
         tipo_count = {
             "Policía": len(filter_by_type(data, 'Policía')),
             "Ejército": len(filter_by_type(data, 'Ejército')),
             "Fuerza Aérea": len(filter_by_type(data, 'Fuerza Aérea')),
             "Naval": len(filter_by_type(data, 'Naval')),
-            "Conteo Total de Placas": len(data)  # Sumar total de placas
+            "Conteo Total de Placas": len(data)
         }
-        
-        # Menú desplegable para ver los contadores
         selected_type = st.selectbox("Seleccione el tipo de vehículo:", list(tipo_count.keys()))
         st.write(f"**Placas de {selected_type}:** {tipo_count[selected_type]}")
-    
+
     elif page == "Mostrar Base de Datos":
-        # Mostrar todo el contenido de la base de datos
         st.subheader("Base de Datos de Placas Registradas")
         if not data.empty:
             st.write(data)
         else:
-            st.write("No hay datos disponibles.")
+            st.error("No hay datos disponibles.")
 
     # Descargar registros filtrados o completos
     st.sidebar.subheader("Descargar Registros")
     download_option = st.sidebar.selectbox("Seleccione qué registros desea descargar:", ["Registro completo", "Policía", "Ejército", "Fuerza Aérea", "Naval"])
-    
     if st.sidebar.button("Descargar"):
         if download_option == "Registro completo":
             download_excel(data, download_option)
@@ -126,3 +121,8 @@ if authenticate():  # Solo si la autenticación es correcta, se procede
             download_excel(filtered_data, download_option)
             st.success(f"Archivo de registros de {download_option} descargado.")
 
+elif authentication_status == False:
+    st.error("Usuario o contraseña incorrecta.")
+
+elif authentication_status is None:
+    st.warning("Por favor ingrese sus credenciales.")
