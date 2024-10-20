@@ -14,6 +14,7 @@ credentials = {
     'usernames': {
         'USUARIO': {
             'name': 'Ejercito',
+            'email': 'nallendeheredia@gmail.com',
             'password': PASSWORD  # Acceder a la contraseña desde secrets
         }
     }
