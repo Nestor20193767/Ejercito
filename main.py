@@ -73,6 +73,25 @@ def main_page():
 
     # Crear un menú de navegación
     st.sidebar.title("Navegación")
+    st.sidebar.markdown(
+        """
+        <style>
+        .header {
+            display: flex;
+            align-items: center;
+        }
+        .header img {
+            margin-right: 20px; /* Espaciado entre la imagen y el título */
+        }
+        </style>
+        <div class="header">
+            <img src="https://raw.githubusercontent.com/Nestor20193767/Ejercito/main/PLA___2_-removebg-preview%20(1).png" width="80">
+            <h1 style="margin: 0;">SIREVE: Sistema de Registro de Placas de Vehículos</h1>
+        </div>
+        """,
+        unsafe_allow_html=True
+    )
+    
     page = st.sidebar.radio("Seleccione una página:", ["Registrar Placa", "Buscar Placa", "Contadores", "Mostrar Base de Datos"])
 
     if page == "Registrar Placa":
