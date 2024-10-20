@@ -3,6 +3,7 @@ import os
 from io import BytesIO
 import streamlit as st
 
+# este si funcniona pero no se borra la contra lebel
 # Se llama a la contraseña desde secrets
 PASSWORD = st.secrets["password"]
 
