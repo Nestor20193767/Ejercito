@@ -24,7 +24,7 @@ def main_page():
         </style>
         <div class="header">
             <img src="https://raw.githubusercontent.com/Nestor20193767/Ejercito/main/PLA___2_-removebg-preview%20(1).png" width="80">
-            <h1 style="margin: 0;">SIREVE: Sistema de Registro de Placas de Vehículos</h1>
+            <h1 style="margin: 0;">SIREVE</h1>
         </div>
         """,
         unsafe_allow_html=True
