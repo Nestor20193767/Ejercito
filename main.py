@@ -6,12 +6,14 @@ from datetime import datetime
 
 # Configuración de la contraseña
 PASSWORD = st.secrets['password'] # Cambia esto a la contraseña deseada
+# Iconos y Logos para las paginas
+icono_url = "https://raw.githubusercontent.com/Nestor20193767/Ejercito/main/ico_SIREVE-removebg-preview%20(1).png"
+logo_url = "https://raw.githubusercontent.com/Nestor20193767/Ejercito/main/PLA___2_-removebg-preview%20(1).png"
 
 # Función para mostrar la página principal
 def main_page():
     #st.title("SIREVE: Sistema de Registro de Placas de Vehículos")
-    icono_url = "https://raw.githubusercontent.com/Nestor20193767/Ejercito/main/ico_SIREVE-removebg-preview%20(1).png"
-    logo_url = "https://raw.githubusercontent.com/Nestor20193767/Ejercito/main/PLA___2_-removebg-preview%20(1).png"
+    
     
     st.set_page_config(page_icon = icono_url, page_title='SIREVE')
     
@@ -162,7 +164,25 @@ def main_page():
 
 # Función para mostrar el formulario de inicio de sesión
 def login_page():
-    st.title("Iniciar Sesión")
+    #st.title("Iniciar Sesión")
+    st.markdown(
+        """
+        <style>
+        .header {
+            display: flex;
+            align-items: center;
+        }
+        .header img {
+            margin-right: 20px; /* Espaciado entre la imagen y el título */
+        }
+        </style>
+        <div class="header">
+            <img src="https://raw.githubusercontent.com/Nestor20193767/Ejercito/main/PLA___2_-removebg-preview%20(1).png" width="80">
+            <h1 style="margin: 0;">Iniciar Sesión</h1>
+        </div>
+        """,
+        unsafe_allow_html=True
+    )
     
     st.set_page_config(page_icon = icono_url, page_title='SIREVE')
     
