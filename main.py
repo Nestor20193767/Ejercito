@@ -9,7 +9,26 @@ PASSWORD = st.secrets['password'] # Cambia esto a la contraseña deseada
 
 # Función para mostrar la página principal
 def main_page():
-    st.title("Sistema de Registro de Placas de Vehículos")
+    st.title("SIREVE: Sistema de Registro de Placas de Vehículos")
+
+    st.markdown(
+        """
+        <style>
+        .header {
+            display: flex;
+            align-items: center;
+        }
+        .header img {
+            margin-right: 20px; /* Espaciado entre la imagen y el título */
+        }
+        </style>
+        <div class="header">
+            <img src="https://raw.githubusercontent.com/Nestor20193767/Ejercito/blob/main/PLA___2_-removebg-preview%20(1).png" width="70">
+            <h1 style="margin: 0;">MEDGAN</h1>
+        </div>
+        """,
+        unsafe_allow_html=True
+    )
     
     # Cargar la base de datos
     DATABASE_FILE = 'database.txt'
