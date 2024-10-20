@@ -23,7 +23,7 @@ authenticator = stauth.Authenticate(
 )
 
 # Autenticación
-name, authentication_status, username = authenticator.login(name="Login", location="main")
+name, authentication_status, username = authenticator.login(location="main")
 
 if authentication_status:
     # Si la autenticación es exitosa
