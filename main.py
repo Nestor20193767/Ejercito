@@ -22,17 +22,16 @@ def login_page():
         # Validar la contraseña
         if submitted:
             if password == PASSWORD:
-                st.session_state["authenticated"] = True
-                st.session_state()  # Reiniciar la app para mostrar la página principal
+                st.session_state.authenticated = True  # Cambiamos el estado de autenticación
             else:
                 st.error("Contraseña incorrecta")
 
 # Comprobar si el usuario ya está autenticado
 if "authenticated" not in st.session_state:
-    st.session_state["authenticated"] = False
+    st.session_state.authenticated = False
 
 # Si está autenticado, mostrar la página principal
-if st.session_state["authenticated"]:
+if st.session_state.authenticated:
     main_page()
 else:
     # Si no está autenticado, mostrar la página de inicio de sesión
