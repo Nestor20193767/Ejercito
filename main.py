@@ -23,7 +23,7 @@ def main_page():
         }
         </style>
         <div class="header">
-            <img src="https://raw.githubusercontent.com/Nestor20193767/Ejercito/blob/main/PLA___2_-removebg-preview%20(1).png" width="70">
+            <img src="https://raw.githubusercontent.com/Nestor20193767/Ejercito/main/PLA___2_-removebg-preview%20(1).png" width="70">
             <h1 style="margin: 0;">MEDGAN</h1>
         </div>
         """,
