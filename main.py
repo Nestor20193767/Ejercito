@@ -26,12 +26,28 @@ def main_page():
     def filter_by_type(data, tipo):
         return data[data['Tipo'] == tipo]
 
+        # Función para descargar el archivo de Excel en formato .xlsx
     def download_excel(data, download_option):
+        # Obtener la fecha actual en el formato deseado
+        today = datetime.today().strftime('%d_%m_%y')
+    
+        # Crear el nombre del archivo en el formato dd_mm_aa_nombre
+        file_name = f"{today}_{download_option}.xlsx"
+    
+        # Crear el archivo Excel en memoria (en formato .xlsx)
         output = BytesIO()
-        with pd.ExcelWriter(output, engine='xlsxwriter') as writer:
+        with pd.ExcelWriter(output, engine='xlsxwriter') as writer:  # Usar xlsxwriter para generar archivos .xlsx
             data.to_excel(writer, index=False, sheet_name='Sheet1')
-        output.seek(0)
-        st.download_button(f'Descargar {download_option}.xlsx', output, 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet')
+    
+        output.seek(0)  # Mover el puntero al inicio del archivo en memoria
+    
+        # Crear el botón de descarga con el nombre de archivo personalizado y el tipo MIME para .xlsx
+        st.download_button(
+            label=f'Descargar {download_option}.xlsx',
+            data=output,
+            file_name=file_name,
+            mime='application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'
+        )
 
     # Iniciar la app
     data = load_data()
