@@ -31,7 +31,7 @@ authenticator = stauth.Authenticate(
 # Autenticación
 authentication_status = authenticator.login(location="main")
 # name, username
-if authentication_status:
+if authentication_status or authentication_status is None:
     # Si la autenticación es exitosa
     st.success(f"Bienvenido !")
 
