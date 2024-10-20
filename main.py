@@ -10,9 +10,10 @@ PASSWORD = st.secrets['password'] # Cambia esto a la contraseña deseada
 # Función para mostrar la página principal
 def main_page():
     #st.title("SIREVE: Sistema de Registro de Placas de Vehículos")
+    icono_url = "https://raw.githubusercontent.com/Nestor20193767/Ejercito/main/ico_SIREVE-removebg-preview%20(1).png"
     logo_url = "https://raw.githubusercontent.com/Nestor20193767/Ejercito/main/PLA___2_-removebg-preview%20(1).png"
     
-    st.set_page_config(page_icon = logo_url, page_title='SIREVE')
+    st.set_page_config(page_icon = icono_url, page_title='SIREVE')
     
     st.markdown(
         """
@@ -162,7 +163,9 @@ def main_page():
 # Función para mostrar el formulario de inicio de sesión
 def login_page():
     st.title("Iniciar Sesión")
-
+    
+    st.set_page_config(page_icon = icono_url, page_title='SIREVE')
+    
     # Crear un formulario para el inicio de sesión
     with st.form("login_form"):
         username = st.text_input("Usuario")
