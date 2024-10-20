@@ -9,20 +9,12 @@ from datetime import timedelta
 USER_NAME = "USUARIO"
 PASSWORD = st.secrets["password"]
 
-# Lista de usuarios y contraseñas (en este caso, solo un usuario)
-credentials = {
-    'usernames': {
-        'USUARIO': {
-            'name': 'Ejercito',
-            'email': 'nallendeheredia@gmail.com',
-            'password': PASSWORD  # Acceder a la contraseña desde secrets
-        }
-    }
-}
+# Acceder a los secretos
+config = st.secrets['credentials']
 
 # Crear una instancia del autenticador
 authenticator = stauth.Authenticate(
-    credentials,
+    config,
     cookie_name="authenticator_cookie",  # Nombre de la cookie
     key="authenticator_key",  # Clave secreta para la cookie
     cookie_expiry_days=30  # Caducidad de la cookie en 30 días
@@ -31,7 +23,7 @@ authenticator = stauth.Authenticate(
 # Autenticación
 authentication_status = authenticator.login(location="main")
 # name, username
-if authentication_status or authentication_status is None:
+if authentication_status : #or authentication_status is None
     # Si la autenticación es exitosa
     st.success(f"Bienvenido !")
 
