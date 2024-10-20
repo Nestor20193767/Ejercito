@@ -23,7 +23,7 @@ def login_page():
         if submitted:
             if password == PASSWORD:
                 st.session_state["authenticated"] = True
-                st.experimental_rerun()  # Reiniciar la app para mostrar la página principal
+                st.session_state()  # Reiniciar la app para mostrar la página principal
             else:
                 st.error("Contraseña incorrecta")
 
