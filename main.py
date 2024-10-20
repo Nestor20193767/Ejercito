@@ -10,14 +10,16 @@ USER_NAME = "USUARIO"
 PASSWORD = st.secrets["password"]
 
 # Acceder a los secretos
-config = st.secrets['credentials']
+credentials = st.secrets['credentials']
+cookie = st.secrets['cookie']
+preauthorized = st.secrets['preauthorized']
 
-# Crear una instancia del autenticador
+# Configurar el autenticador
 authenticator = stauth.Authenticate(
-    config,
-    cookie_name="authenticator_cookie",  # Nombre de la cookie
-    key="authenticator_key",  # Clave secreta para la cookie
-    cookie_expiry_days=30  # Caducidad de la cookie en 30 días
+    credentials['usernames'],
+    cookie['key'],
+    cookie['name'],
+    cookie_expiry_days=cookie['expiry_days']
 )
 
 # Autenticación
