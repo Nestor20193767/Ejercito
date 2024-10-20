@@ -72,7 +72,6 @@ def main_page():
     data = load_data()
 
     # Crear un menú de navegación
-    st.sidebar.title("Navegación")
     st.sidebar.markdown(
         """
         <style>
@@ -92,6 +91,7 @@ def main_page():
         unsafe_allow_html=True
     )
     
+    st.sidebar.title("Navegación")
     page = st.sidebar.radio("Seleccione una página:", ["Registrar Placa", "Buscar Placa", "Contadores", "Mostrar Base de Datos"])
 
     if page == "Registrar Placa":
