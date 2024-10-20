@@ -3,30 +3,13 @@ import pandas as pd
 import os
 from io import BytesIO
 
-# Acceder a las credenciales guardadas en st.secrets
-USER_NAME = "USUARIO"
-PASSWORD = st.secrets["password"]
-
-# Comprobar si el usuario ya está autenticado
-if "authenticated" not in st.session_state:
-    st.session_state.authenticated = False
-
-# Función de autenticación
-def login():
-    st.title("Iniciar Sesión")
-    username = st.text_input("Usuario")
-    password = st.text_input("Contraseña", type="password")
-    
-    if st.button("Login"):
-        if username == USER_NAME and password == PASSWORD:
-            st.session_state.authenticated = True  # Actualizamos el estado de autenticación
-            st.success("Sesión iniciada con éxito.")
-            st.experimental_rerun()  # Refrescamos la página para ocultar el login
-        else:
-            st.error("Usuario o contraseña incorrectos.")
+# Configuración de la contraseña
+PASSWORD = st.secrets('password') # Cambia esto a la contraseña deseada
 
 # Función para mostrar la página principal
-def show_main_page():
+def main_page():
+    st.title("Sistema de Registro de Placas de Vehículos")
+    
     # Cargar la base de datos
     DATABASE_FILE = 'database.txt'
 
@@ -50,7 +33,6 @@ def show_main_page():
         st.download_button(f'Descargar {download_option}.xlsx', output, 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet')
 
     # Iniciar la app
-    st.title("Sistema de Registro de Placas de Vehículos")
     data = load_data()
 
     # Crear un menú de navegación
@@ -119,9 +101,31 @@ def show_main_page():
             download_excel(filtered_data, download_option)
             st.success(f"Archivo de registros de {download_option} descargado.")
 
-# Mostrar el login si no está autenticado, si lo está, mostrar la página principal
-if not st.session_state.authenticated:
-    login()
+# Función para mostrar el formulario de inicio de sesión
+def login_page():
+    st.title("Iniciar Sesión")
+
+    # Crear un formulario para el inicio de sesión
+    with st.form("login_form"):
+        username = st.text_input("Usuario")
+        password = st.text_input("Contraseña", type="password")
+        submitted = st.form_submit_button("Iniciar Sesión")
+
+        # Validar la contraseña
+        if submitted:
+            if password == PASSWORD:
+                st.session_state.authenticated = True  # Cambiamos el estado de autenticación
+            else:
+                st.error("Contraseña incorrecta")
+
+# Comprobar si el usuario ya está autenticado
+if "authenticated" not in st.session_state:
+    st.session_state.authenticated = False
+
+# Si está autenticado, mostrar la página principal
+if st.session_state.authenticated:
+    main_page()
 else:
-    show_main_page()
+    # Si no está autenticado, mostrar la página de inicio de sesión
+    login_page()
 
