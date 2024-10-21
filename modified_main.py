@@ -157,8 +157,8 @@ def main_page():
                 estado_seleccionado = st.selectbox("Seleccione el Estado:", ["Todos", "Pendiente", "Archivado"])
             
                 # Filtro por Fecha
-                fechas_unicas = data['Fecha'].unique().tolist()
-                fechas_seleccionadas = st.multiselect("Seleccione las Fechas:", fechas_unicas)
+                #fechas_unicas = data['Fecha'].unique().tolist()
+                fechas_seleccionadas = st.date_input("Fecha", datetime.today())
             
                 # Filtro por Conductor
                 conductor_seleccionado = st.text_input("Buscar por Conductor:")
