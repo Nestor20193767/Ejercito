@@ -99,7 +99,7 @@ def main_page():
         unsafe_allow_html=True
     )
     
-    st.sidebar.subheader("Navegación")
+    #st.sidebar.subheader("Navegación")
     # page = st.sidebar.radio("Seleccione una página:", ["Registrar Placa", "Buscar Placa", "Contadores", "Mostrar Base de Datos"])
     # Sidebar con íconos
     with st.sidebar:
