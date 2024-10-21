@@ -257,7 +257,7 @@ def login_page():
     if submitted:
         if password == PASSWORD:
             st.session_state['logged_in'] = True
-            st.experimental_rerun()
+            st.session_state.authenticated = True  # Cambiamos el estado de autenticación
         else:
             st.error("Contraseña incorrecta.")
 
