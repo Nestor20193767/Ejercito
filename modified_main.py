@@ -4,11 +4,47 @@ import os
 from io import BytesIO
 from datetime import datetime
 from streamlit_option_menu import option_menu
-
+usuario = ''
 PASSWORD = st.secrets['password']
 icono_url = "https://raw.githubusercontent.com/Nestor20193767/Ejercito/main/ico_SIREVE-removebg-preview%20(1).png"
 logo_url = "https://raw.githubusercontent.com/Nestor20193767/Ejercito/main/PLA___2_-removebg-preview%20(1).png"
 st.set_page_config(page_icon=icono_url, page_title='SIREVE', layout="wide")
+
+# Función de inicio de sesión
+def login_page():
+    st.markdown(
+        """
+        <style>
+        .header {
+            display: flex;
+            align-items: center;
+        }
+        .header img {
+            margin-right: 20px;
+        }
+        </style>
+        <div class="header">
+            <img src="https://raw.githubusercontent.com/Nestor20193767/Ejercito/main/PLA___2_-removebg-preview%20(1).png" width="80">
+            <h1 style="margin: 0;">SIREVE</h1>
+        </div>
+        """, unsafe_allow_html=True
+    )
+
+    st.subheader("Iniciar Sesión")
+
+    #password_input = st.text_input("Ingrese la contraseña:", type="password")
+    # Crear un formulario para el inicio de sesión
+    with st.form("login_form"):
+        username = st.text_input("Usuario")
+        password = st.text_input("Contraseña", type="password")
+        submitted = st.form_submit_button("Iniciar Sesión")
+        
+    if submitted:
+        if password == PASSWORD:
+            st.session_state['logged_in'] = True
+            st.session_state.authenticated = True  # Cambiamos el estado de autenticación
+        else:
+            st.error("Contraseña incorrecta.")
 
 # Función para mostrar la página principal
 def main_page():
@@ -229,41 +265,7 @@ def main_page():
         else:
             st.error("Aún no hay una base de datos.")
 
-# Función de inicio de sesión
-def login_page():
-    st.markdown(
-        """
-        <style>
-        .header {
-            display: flex;
-            align-items: center;
-        }
-        .header img {
-            margin-right: 20px;
-        }
-        </style>
-        <div class="header">
-            <img src="https://raw.githubusercontent.com/Nestor20193767/Ejercito/main/PLA___2_-removebg-preview%20(1).png" width="80">
-            <h1 style="margin: 0;">SIREVE</h1>
-        </div>
-        """, unsafe_allow_html=True
-    )
 
-    st.subheader("Iniciar Sesión")
-
-    #password_input = st.text_input("Ingrese la contraseña:", type="password")
-    # Crear un formulario para el inicio de sesión
-    with st.form("login_form"):
-        username = st.text_input("Usuario")
-        password = st.text_input("Contraseña", type="password")
-        submitted = st.form_submit_button("Iniciar Sesión")
-        
-    if submitted:
-        if password == PASSWORD:
-            st.session_state['logged_in'] = True
-            st.session_state.authenticated = True  # Cambiamos el estado de autenticación
-        else:
-            st.error("Contraseña incorrecta.")
 
 # Verificar si el usuario ya inició sesión
 if 'logged_in' not in st.session_state:
