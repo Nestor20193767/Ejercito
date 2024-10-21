@@ -67,7 +67,7 @@ def main_page():
         output.seek(0)  # Mover el puntero al inicio del archivo en memoria
 
         # Crear un boton de descarga
-        st.sidebar.sidebar.download_button(
+        st.download_button(
             label=f'Descargar {download_option}.xlsx',
             data=output,
             file_name=file_name,
