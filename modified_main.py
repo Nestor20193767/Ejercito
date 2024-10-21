@@ -108,7 +108,7 @@ def main_page():
         #persona_a_cargo = st.text_input("Persona a Cargo:")
         try:
             persona_a_cargo = username
-        except Excption as e:
+        except Exception as e:
             st.warring("Debes recargar la pagina para agregar el usuario")
         fecha = st.date_input("Fecha", datetime.today())
 
