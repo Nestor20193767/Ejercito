@@ -247,7 +247,13 @@ def login_page():
 
     st.subheader("Iniciar Sesión")
 
-    password_input = st.text_input("Ingrese la contraseña:", type="password")
+    #password_input = st.text_input("Ingrese la contraseña:", type="password")
+    # Crear un formulario para el inicio de sesión
+    with st.form("login_form"):
+        username = st.text_input("Usuario")
+        password = st.text_input("Contraseña", type="password")
+        submitted = st.form_submit_button("Iniciar Sesión")
+        
     if st.button("Iniciar Sesión"):
         if password_input == PASSWORD:
             st.session_state['logged_in'] = True
