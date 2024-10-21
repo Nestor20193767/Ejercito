@@ -2,3 +2,4 @@ streamlit
 pandas
 xlsxwriter
 streamlit-authenticator
+streamlit_option_menu
