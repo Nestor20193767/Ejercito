@@ -250,7 +250,7 @@ def main_page():
                         #st.error("No se encontraron registros con los filtros aplicados.")
                         st.write(data)
         except Exception as e:
-            st.error(f"Ocurrió un error: {e}")
+            st.error(f"Aún no hay base de datos ")
 
 
     elif page == "Manual de Usuario":
