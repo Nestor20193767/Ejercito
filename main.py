@@ -94,7 +94,7 @@ def main_page():
 
     # Función para descargar los datos en formato Excel
     def download_excel(data, download_option):
-        today = datetime.today().strftime('%d_%m_%y')
+        today = datetime.today().strftime('%d/%m/%y')
         file_name = f"{today}_{download_option}.xlsx"
     
         output = BytesIO()
@@ -205,7 +205,7 @@ def main_page():
                 estado_seleccionado = st.selectbox("Seleccione el Estado:", ["Todos", "Pendiente", "Archivado"])
             
                 # Filtro por Fecha
-                fechas_seleccionadas = st.date_input("Fecha", value=datetime.today(), max_value=datetime.today())
+                fechas_seleccionadas = st.date_input("Fecha", value=datetime.today().strftime('%d/%m/%y'), max_value=datetime.today().strftime('%d/%m/%y'))
             
                 # Filtro por Conductor
                 conductor_seleccionado = st.text_input("Buscar por Conductor:")
