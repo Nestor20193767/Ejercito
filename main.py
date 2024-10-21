@@ -18,54 +18,25 @@ def main_page():
     #st.title("SIREVE: Sistema de Registro de Placas de Vehículos")
     
     #st.set_page_config(page_icon = icono_url, page_title='SIREVE')
-    
+
     st.markdown(
-    """
-    <style>
-    /* Estilos para la cabecera con imagen y título */
-    .header {
-        display: flex;
-        align-items: center;
-        background-color: #FFFFFF; /* Color de fondo principal */
-        padding: 10px;
-        border-radius: 10px; /* Bordes redondeados opcional */
-    }
-    .header img {
-        margin-right: 20px; /* Espaciado entre la imagen y el título */
-    }
-    .header h1 {
-        color: #31333F; /* Color del texto */
-        margin: 0;
-    }
-    
-    /* Color del fondo de la aplicación */
-    .css-18e3th9 {
-        background-color: #FFFFFF; /* Fondo principal */
-    }
-    
-    /* Color de texto para párrafos */
-    .css-1d391kg p {
-        color: #31333F; /* Color del texto */
-    }
-    
-    /* Color del botón principal */
-    .stButton>button {
-        background-color: #19683F; /* Fondo del botón */
-        color: white; /* Color del texto del botón */
-    }
-    
-    /* Color de fondo secundario (barra lateral o áreas secundarias) */
-    .css-1lcbmhc {
-        background-color: #E5F3EC; /* Fondo secundario */
-    }
-    </style>
-    <div class="header">
-        <img src="https://raw.githubusercontent.com/Nestor20193767/Ejercito/main/PLA___2_-removebg-preview%20(1).png" width="80">
-        <h1>SIREVE</h1>
-    </div>
-    """,
-    unsafe_allow_html=True
-)
+        """
+        <style>
+        .header {
+            display: flex;
+            align-items: center;
+        }
+        .header img {
+            margin-right: 20px; /* Espaciado entre la imagen y el título */
+        }
+        </style>
+        <div class="header">
+            <img src="https://raw.githubusercontent.com/Nestor20193767/Ejercito/main/PLA___2_-removebg-preview%20(1).png" width="80">
+            <h1 style="margin: 0;">SIREVE</h1>
+        </div>
+        """,
+        unsafe_allow_html=True
+    ) 
     
     # Cargar la base de datos
     DATABASE_FILE = 'database.txt'
