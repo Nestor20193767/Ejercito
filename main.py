@@ -205,7 +205,7 @@ def main_page():
                 estado_seleccionado = st.selectbox("Seleccione el Estado:", ["Todos", "Pendiente", "Archivado"])
             
                 # Filtro por Fecha
-                fechas_seleccionadas = st.date_input("Fecha", value=datetime.today().strftime('%d_%m_%y'), max_value=datetime.today())
+                fechas_seleccionadas = st.date_input("Fecha", value=datetime.today(), max_value=datetime.today())
             
                 # Filtro por Conductor
                 conductor_seleccionado = st.text_input("Buscar por Conductor:")
