@@ -67,12 +67,12 @@ def main_page():
         output.seek(0)  # Mover el puntero al inicio del archivo en memoria
     
         # Crear el botón de descarga con el nombre de archivo personalizado y el tipo MIME para .xlsx
-        st.download_button(
-            label=f'Descargar {download_option}.xlsx',
-            data=output,
-            file_name=file_name,
-            mime='application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'
-        )
+        #st.download_button(
+         #   label=f'Descargar {download_option}.xlsx',
+          #  data=output,
+           # file_name=file_name,
+            #mime='application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'
+        #)
 
     # Iniciar la app
     data = load_data()
@@ -153,9 +153,16 @@ def main_page():
     # Descargar registros filtrados o completos
     st.sidebar.subheader("Descargar Registros")
     download_option = st.sidebar.selectbox("Seleccione qué registros desea descargar:", ["Registro completo", "Policía", "Ejército", "Fuerza Aérea", "Naval"])
+    
     if st.sidebar.button("Descargar"):
         if download_option == "Registro completo":
             download_excel(data, download_option)
+            st.sidebar.sidebar.download_button(
+            label=f'Descargar {download_option}.xlsx',
+            data=output,
+            file_name=file_name,
+            mime='application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'
+        )
             st.success("Archivo de registro completo descargado.")
         else:
             filtered_data = filter_by_type(data, download_option)
