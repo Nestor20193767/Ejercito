@@ -45,7 +45,7 @@ def login_page():
             st.session_state.authenticated = True  # Cambiamos el estado de autenticación
             st.session_state['username'] = username  # Guardar el nombre de usuario en session_state
             st.success(f"Bienvenido, {st.session_state['username']}")  # Mostrar mensaje de bienvenida
-            usuario = username
+            usuario = st.session_state['username']
         else:
             st.error("Contraseña incorrecta.")
 
@@ -146,7 +146,7 @@ def main_page():
         tipo_accidente = st.text_area("Tipo de Accidente:")
         #persona_a_cargo = st.text_input("Persona a Cargo:")
         try:
-            persona_a_cargo = username
+            persona_a_cargo = usuario
         except Exception as e:
             st.warning("Debes recargar la pagina para agregar el usuario")
         fecha = st.date_input("Fecha", datetime.today())
