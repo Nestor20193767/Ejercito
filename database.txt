@@ -1,1 +1,1 @@
-Placa|Nombre|Tipo|Incidencias
+Placa|Conductor Designado|Institucion|Estado|Preliminar|Expediente|Tipo de accidente|Persona a Cargo|Fecha
