@@ -217,7 +217,10 @@ def main_page():
                 # Filtro por Persona a Cargo
                 persona_cargo_seleccionada = st.text_input("Buscar por Persona a Cargo:")
                 bFiltros = st.button("Aplicar Filtros")
-                st.write(data)
+                
+                if not data.empty: 
+                    st.write(data)
+                
                 # Mostrar la base de datos completa o filtrada
                 if bFiltros:
                     data_filtrada = data.copy()  # Hacer una copia de los datos originales
