@@ -109,7 +109,7 @@ def main_page():
         try:
             persona_a_cargo = username
         except Exception as e:
-            st.warring("Debes recargar la pagina para agregar el usuario")
+            st.warning("Debes recargar la pagina para agregar el usuario")
         fecha = st.date_input("Fecha", datetime.today())
 
         if st.button("Registrar"):
