@@ -4,6 +4,8 @@ import os
 from io import BytesIO
 from datetime import datetime
 
+from streamlit_option_menu import option_menu
+
 # Sheet creada: https://www.youtube.com/watch?v=jeZWv5PQJAk
 # Configuración de la contraseña
 PASSWORD = st.secrets['password'] # Cambia esto a la contraseña deseada
@@ -98,7 +100,16 @@ def main_page():
     )
     
     st.sidebar.title("Navegación")
-    page = st.sidebar.radio("Seleccione una página:", ["Registrar Placa", "Buscar Placa", "Contadores", "Mostrar Base de Datos"])
+    # page = st.sidebar.radio("Seleccione una página:", ["Registrar Placa", "Buscar Placa", "Contadores", "Mostrar Base de Datos"])
+    # Sidebar con íconos
+    with st.sidebar:
+        page = option_menu(
+            menu_title="Seleccione una página",  # Título del menú
+            options=["Registrar Placa", "Buscar Placa", "Contadores", "Mostrar Base de Datos"],  # Opciones del menú
+            icons=["card-text", "search", "calculator", "database"],  # Íconos de cada opción
+            menu_icon="menu-up",  # Ícono del menú principal
+            default_index=0,  # Índice predeterminado
+        )
 
     if page == "Registrar Placa":
         st.subheader("Registrar Nueva Placa")
