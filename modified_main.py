@@ -200,7 +200,8 @@ def main_page():
                     if not data_filtrada.empty:
                         st.write(data_filtrada)
                     else:
-                        st.error("No se encontraron registros con los filtros aplicados.")
+                        #st.error("No se encontraron registros con los filtros aplicados.")
+                        st.write(data)
         except Exception as e:
             st.error(f"Ocurrió un error: {e}")
 
