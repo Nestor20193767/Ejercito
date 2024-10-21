@@ -9,6 +9,7 @@ from streamlit_option_menu import option_menu
 if 'username' not in st.session_state:
     st.session_state['username'] = None  # Inicializar con None
     
+usuarios_list = st.secrets['usuarios']
 PASSWORD = st.secrets['password']
 icono_url = "https://raw.githubusercontent.com/Nestor20193767/Ejercito/main/ico_SIREVE-removebg-preview%20(1).png"
 logo_url = "https://raw.githubusercontent.com/Nestor20193767/Ejercito/main/PLA___2_-removebg-preview%20(1).png"
@@ -39,7 +40,7 @@ def login_page():
     #password_input = st.text_input("Ingrese la contraseña:", type="password")
     # Crear un formulario para el inicio de sesión
     with st.form("login_form"):
-        username = st.text_input("Usuario")
+        username = st.selectbox("Select option", options=usuarios_list)
         password = st.text_input("Contraseña", type="password")
         submitted = st.form_submit_button("Iniciar Sesión")
         
