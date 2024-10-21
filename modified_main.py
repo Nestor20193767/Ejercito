@@ -255,7 +255,7 @@ def login_page():
         submitted = st.form_submit_button("Iniciar Sesión")
         
     if submitted:
-        if password_input == PASSWORD:
+        if password == PASSWORD:
             st.session_state['logged_in'] = True
             st.experimental_rerun()
         else:
