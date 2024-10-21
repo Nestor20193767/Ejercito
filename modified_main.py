@@ -1,4 +1,3 @@
-
 import streamlit as st
 import pandas as pd
 import os
@@ -7,19 +6,13 @@ from datetime import datetime
 
 from streamlit_option_menu import option_menu
 
-# Sheet creada: https://www.youtube.com/watch?v=jeZWv5PQJAk
-# Configuración de la contraseña
-PASSWORD = st.secrets['password'] # Cambia esto a la contraseña deseada
-# Iconos y Logos para las paginas
+PASSWORD = st.secrets['password']
 icono_url = "https://raw.githubusercontent.com/Nestor20193767/Ejercito/main/ico_SIREVE-removebg-preview%20(1).png"
 logo_url = "https://raw.githubusercontent.com/Nestor20193767/Ejercito/main/PLA___2_-removebg-preview%20(1).png"
-st.set_page_config(page_icon = icono_url, page_title='SIREVE', layout="wide")
+st.set_page_config(page_icon=icono_url, page_title='SIREVE', layout="wide")
+
 # Función para mostrar la página principal
 def main_page():
-    #st.title("SIREVE: Sistema de Registro de Placas de Vehículos")
-    
-    #st.set_page_config(page_icon = icono_url, page_title='SIREVE')
-
     st.markdown(
         """
         <style>
@@ -28,59 +21,50 @@ def main_page():
             align-items: center;
         }
         .header img {
-            margin-right: 20px; /* Espaciado entre la imagen y el título */
+            margin-right: 20px;
         }
         </style>
         <div class="header">
             <img src="https://raw.githubusercontent.com/Nestor20193767/Ejercito/main/PLA___2_-removebg-preview%20(1).png" width="80">
             <h1 style="margin: 0;">SIREVE</h1>
         </div>
-        """,
-        unsafe_allow_html=True
+        """, unsafe_allow_html=True
     ) 
     
-    # Cargar la base de datos
     DATABASE_FILE = 'database.txt'
 
     def load_data():
         if os.path.exists(DATABASE_FILE) and os.path.getsize(DATABASE_FILE) > 0:
             return pd.read_csv(DATABASE_FILE, sep='|')
         else:
-            return pd.DataFrame(columns=['Placa', 'Nombre', 'Tipo', 'Incidencias'])
+            # Nuevos campos de la base de datos
+            return pd.DataFrame(columns=['Placa', 'Conductor Designado', 'Institucion', 'Estado', 'Preliminar', 'Expediente', 'Tipo de accidente', 'Persona a Cargo', 'Fecha'])
 
     def save_data(data):
         data.to_csv(DATABASE_FILE, sep='|', index=False)
 
-    def filter_by_type(data, tipo):
-        return data[data['Tipo'] == tipo]
+    def filter_by_type(data, institucion):
+        return data[data['Institucion'] == institucion]
 
-        # Función para descargar el archivo de Excel en formato .xlsx
     def download_excel(data, download_option):
-        # Obtener la fecha actual en el formato deseado
         today = datetime.today().strftime('%d_%m_%y')
-    
-        # Crear el nombre del archivo en el formato dd_mm_aa_nombre
         file_name = f"{today}_{download_option}.xlsx"
     
-        # Crear el archivo Excel en memoria (en formato .xlsx)
         output = BytesIO()
-        with pd.ExcelWriter(output, engine='xlsxwriter') as writer:  # Usar xlsxwriter para generar archivos .xlsx
+        with pd.ExcelWriter(output, engine='xlsxwriter') as writer:
             data.to_excel(writer, index=False, sheet_name='Sheet1')
     
-        output.seek(0)  # Mover el puntero al inicio del archivo en memoria
+        output.seek(0)
 
-        # Crear un boton de descarga
-        Descarga = st.download_button(
+        st.download_button(
             label=f'Descargar {download_option}.xlsx',
             data=output,
             file_name=file_name,
             mime='application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'
         )
         
-    # Iniciar la app
     data = load_data()
 
-    # Crear un menú de navegación
     st.sidebar.markdown(
         """
         <style>
@@ -89,42 +73,50 @@ def main_page():
             align-items: center;
         }
         .header img {
-            margin-right: 20px; /* Espaciado entre la imagen y el título */
+            margin-right: 20px;
         }
         </style>
         <div class="header">
             <img src="https://raw.githubusercontent.com/Nestor20193767/Ejercito/main/PLA___2_-removebg-preview%20(1).png" width="80">
             <h1 style="margin: 0;">SIREVE: Sistema de Registro de Placas de Vehículos</h1>
         </div>
-        """,
-        unsafe_allow_html=True
+        """, unsafe_allow_html=True
     )
-    
-    #st.sidebar.subheader("Navegación")
-    # page = st.sidebar.radio("Seleccione una página:", ["Registrar Placa", "Buscar Placa", "Base de Datos", "Mostrar Base de Datos"])
-    # Sidebar con íconos
+
     with st.sidebar:
         page = option_menu(
-            menu_title="Navegación",  # Título del menú
-            options=["Registrar Placa", "Buscar Placa", "Base de Datos", "Mostrar Base de Datos"],  # Opciones del menú
-            icons=["card-text", "search", "calculator", "database"],  # Íconos de cada opción
-            default_index=0,  # Índice predeterminado
+            menu_title="Navegación",
+            options=["Registrar Placa Oficial", "Buscar Placa", "Base de Datos", "Manual de Usuario"],
+            icons=["card-text", "search", "database", "book"],
+            default_index=0
         )
 
-    if page == "Registrar Placa":
+    if page == "Registrar Placa Oficial":
         st.subheader("Registrar Nueva Placa")
+
+        # Modificar los campos solicitados
+        institucion = st.selectbox("Institución:", ["Policía", "Ejército", "Fuerza Aérea", "Naval"])
         placa = st.text_input("Placa del Vehículo:")
-        nombre = st.text_input("Nombre del Dueño:")
-        tipo = st.selectbox("Tipo de Vehículo:", ["Policía", "Ejército", "Fuerza Aérea", "Naval"])
-        incidencias = st.number_input("Número de Incidencias:", min_value=0, step=1)
+        conductor = st.text_input("Conductor Designado:")
+        estado = st.selectbox("Estado:", ["Pendiente", "Archivado"])
+        preliminar = st.text_input("Preliminar:")
+        expediente = st.text_input("Expediente:")
+        tipo_accidente = st.text_area("Tipo de Accidente:")
+        persona_a_cargo = st.text_input("Persona a Cargo:")
+        fecha = st.date_input("Fecha", datetime.today())
 
         if st.button("Registrar"):
-            if placa and nombre:
+            if placa and conductor:
                 new_data = pd.DataFrame({
                     'Placa': [placa],
-                    'Nombre': [nombre],
-                    'Tipo': [tipo],
-                    'Incidencias': [incidencias]
+                    'Conductor Designado': [conductor],
+                    'Institucion': [institucion],
+                    'Estado': [estado],
+                    'Preliminar': [preliminar],
+                    'Expediente': [expediente],
+                    'Tipo de accidente': [tipo_accidente],
+                    'Persona a Cargo': [persona_a_cargo],
+                    'Fecha': [fecha]
                 })
                 data = pd.concat([data, new_data], ignore_index=True)
                 save_data(data)
@@ -143,16 +135,16 @@ def main_page():
                 st.error("Placa no encontrada.")
 
     elif page == "Base de Datos":
-        st.subheader("Base de Datos de Placas por Tipo")
-        tipo_count = {
+        st.subheader("Base de Datos de Placas por Institución")
+        institucion_count = {
             "Policía": len(filter_by_type(data, 'Policía')),
             "Ejército": len(filter_by_type(data, 'Ejército')),
             "Fuerza Aérea": len(filter_by_type(data, 'Fuerza Aérea')),
             "Naval": len(filter_by_type(data, 'Naval')),
             "Conteo Total de Placas": len(data)
         }
-        selected_type = st.selectbox("Seleccione el tipo de vehículo:", list(tipo_count.keys()))
-        st.write(f"**Placas de {selected_type}:** {tipo_count[selected_type]}")
+        selected_institucion = st.selectbox("Seleccione la institución:", list(institucion_count.keys()))
+        st.write(f"**Placas de {selected_institucion}:** {institucion_count[selected_institucion]}")
 
     elif page == "Mostrar Base de Datos":
         st.subheader("Base de Datos de Placas Registradas")
@@ -161,7 +153,6 @@ def main_page():
         else:
             st.error("No hay datos disponibles.")
 
-    # Descargar registros filtrados o completos
     st.sidebar.subheader("Descargar Registros")
     download_option = st.sidebar.selectbox("Seleccione qué registros desea descargar:", ["Registro completo", "Policía", "Ejército", "Fuerza Aérea", "Naval"])
     
@@ -174,9 +165,8 @@ def main_page():
             download_excel(filtered_data, download_option)
             st.success(f"Archivo de registros de {download_option} descargado.")
 
-# Función para mostrar el formulario de inicio de sesión
+# Función de inicio de sesión
 def login_page():
-    #st.title("Iniciar Sesión")
     st.markdown(
         """
         <style>
@@ -185,40 +175,32 @@ def login_page():
             align-items: center;
         }
         .header img {
-            margin-right: 20px; /* Espaciado entre la imagen y el título */
+            margin-right: 20px;
         }
         </style>
         <div class="header">
             <img src="https://raw.githubusercontent.com/Nestor20193767/Ejercito/main/PLA___2_-removebg-preview%20(1).png" width="80">
             <h1 style="margin: 0;">Iniciar Sesión</h1>
         </div>
-        """,
-        unsafe_allow_html=True
+        """, unsafe_allow_html=True
     )
-    
-    #st.set_page_config(page_icon = icono_url, page_title='SIREVE')
-    
-    # Crear un formulario para el inicio de sesión
+
     with st.form("login_form"):
         username = st.text_input("Usuario")
         password = st.text_input("Contraseña", type="password")
         submitted = st.form_submit_button("Iniciar Sesión")
 
-        # Validar la contraseña
         if submitted:
             if password == PASSWORD:
-                st.session_state.authenticated = True  # Cambiamos el estado de autenticación
+                st.session_state.authenticated = True
             else:
                 st.error("Contraseña incorrecta")
 
-# Comprobar si el usuario ya está autenticado
 if "authenticated" not in st.session_state:
     st.session_state.authenticated = False
 
-# Si está autenticado, mostrar la página principal
 if st.session_state.authenticated:
     main_page()
 else:
-    # Si no está autenticado, mostrar la página de inicio de sesión
     login_page()
 
