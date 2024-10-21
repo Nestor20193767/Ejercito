@@ -254,7 +254,7 @@ def login_page():
         password = st.text_input("Contraseña", type="password")
         submitted = st.form_submit_button("Iniciar Sesión")
         
-    if st.button("Iniciar Sesión"):
+    if submitted:
         if password_input == PASSWORD:
             st.session_state['logged_in'] = True
             st.experimental_rerun()
