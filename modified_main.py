@@ -4,7 +4,7 @@ import os
 from io import BytesIO
 from datetime import datetime
 from streamlit_option_menu import option_menu
-username = ''
+usuario = ''
 PASSWORD = st.secrets['password']
 icono_url = "https://raw.githubusercontent.com/Nestor20193767/Ejercito/main/ico_SIREVE-removebg-preview%20(1).png"
 logo_url = "https://raw.githubusercontent.com/Nestor20193767/Ejercito/main/PLA___2_-removebg-preview%20(1).png"
@@ -43,6 +43,7 @@ def login_page():
         if password == PASSWORD:
             st.session_state['logged_in'] = True
             st.session_state.authenticated = True  # Cambiamos el estado de autenticación
+            usuario = username
         else:
             st.error("Contraseña incorrecta.")
 
@@ -143,7 +144,7 @@ def main_page():
         tipo_accidente = st.text_area("Tipo de Accidente:")
         #persona_a_cargo = st.text_input("Persona a Cargo:")
         try:
-            persona_a_cargo = username
+            persona_a_cargo = usuario
         except Exception as e:
             st.warning("Debes recargar la pagina para agregar el usuario")
         fecha = st.date_input("Fecha", datetime.today())
