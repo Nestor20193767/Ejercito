@@ -144,72 +144,66 @@ def main_page():
                 st.error("Aún no hay una base de datos.")
 
     elif page == "Base de Datos":
-        try:
-            st.subheader("Base de Datos de Placas Registradas - Filtros")
+    try:
+        st.subheader("Base de Datos de Placas Registradas - Filtros")
+    
+        if data is None:
+            st.error("Aún no hay una base de datos.")
+        else:
+            # Mostrar cantidad total de placas en la parte superior con tamaño de letra aumentado
+            st.write(f"<h2 style='font-size: 24px;'>Cantidad de Placas Totales: {len(data)}</h2>", unsafe_allow_html=True)
+            
+            # Filtro por Estado
+            estado_seleccionado = st.selectbox("Seleccione el Estado:", ["Todos", "Pendiente", "Archivado"])
         
-            if data is None:
-                st.error("Aún no hay una base de datos.")
-            else:
-                # Mostrar cantidad total de placas en la parte superior con tamaño de letra aumentado
-                st.write(f"<h2 style='font-size: 24px;'>Cantidad de Placas Totales: {len(data)}</h2>", unsafe_allow_html=True)
+            # Filtro por Fecha
+            fechas_seleccionadas = st.date_input("Fecha", value=datetime.today(), max_value=datetime.today())
+        
+            # Filtro por Conductor
+            conductor_seleccionado = st.text_input("Buscar por Conductor:")
+        
+            # Filtro por Instituciones
+            instituciones_unicas = data['Institucion'].unique().tolist()
+            instituciones_seleccionadas = st.multiselect("Seleccione las Instituciones:", instituciones_unicas)
+        
+            # Filtro por Persona a Cargo
+            persona_cargo_seleccionada = st.text_input("Buscar por Persona a Cargo:")
+        
+            # Mostrar la base de datos completa o filtrada
+            if st.button("Aplicar Filtros"):
+                data_filtrada = data.copy()  # Hacer una copia de los datos originales
+            
+                # Aplicar filtro por Estado
+                if estado_seleccionado != "Todos":
+                    data_filtrada = data_filtrada[data_filtrada['Estado'] == estado_seleccionado]
+        
+                # Aplicar filtro por Fecha
+                if fechas_seleccionadas:
+                    data_filtrada = data_filtrada[data_filtrada['Fecha'] == pd.to_datetime(fechas_seleccionadas)]
+
+                # Aplicar filtro por Conductor
+                if conductor_seleccionado:
+                    data_filtrada = data_filtrada[data_filtrada['Conductor Designado'].str.contains(conductor_seleccionado, case=False)]
+        
+                # Aplicar filtro por Instituciones
+                if instituciones_seleccionadas:
+                    data_filtrada = data_filtrada[data_filtrada['Institucion'].isin(instituciones_seleccionadas)]
+        
+                # Aplicar filtro por Persona a Cargo
+                if persona_cargo_seleccionada:
+                    data_filtrada = data_filtrada[data_filtrada['Persona a Cargo'].str.contains(persona_cargo_seleccionada, case=False)]
+                    
+                # Mostrar cantidad de placas con los filtros aplicados
+                st.write(f"### Cantidad de Placas Filtradas: {len(data_filtrada)}")
                 
-                # Filtro por Estado
-                estado_seleccionado = st.selectbox("Seleccione el Estado:", ["Todos", "Pendiente", "Archivado"])
-            
-                # Filtro por Fecha
-                #fechas_unicas = data['Fecha'].unique().tolist()
-                fechas_seleccionadas = st.date_input("Fecha", datetime.today())
-            
-                # Filtro por Conductor
-                conductor_seleccionado = st.text_input("Buscar por Conductor:")
-            
-                # Filtro por Instituciones
-                instituciones_unicas = data['Institucion'].unique().tolist()
-                instituciones_seleccionadas = st.multiselect("Seleccione las Instituciones:", instituciones_unicas)
-            
-                # Filtro por Persona a Cargo
-                persona_cargo_seleccionada = st.text_input("Buscar por Persona a Cargo:")
-            
-                # Mostrar la base de datos completa o filtrada
-                if st.button("Aplicar Filtros"):
-                    data_filtrada = data
-            
-                    # Aplicar filtro por Estado
-                    if estado_seleccionado != "Todos":
-                        data_filtrada = data_filtrada[data_filtrada['Estado'] == estado_seleccionado]
-            
-                    # Aplicar filtro por Fecha
-                    if fechas_seleccionadas:
-                        data_filtrada = data_filtrada[data_filtrada['Fecha'].isin(fechas_seleccionadas)]
-            
-                    # Aplicar filtro por Conductor
-                    if conductor_seleccionado:
-                        data_filtrada = data_filtrada[data_filtrada['Conductor Designado'].str.contains(conductor_seleccionado, case=False)]
-            
-                    # Aplicar filtro por Instituciones
-                    if instituciones_seleccionadas:
-                        data_filtrada = data_filtrada[data_filtrada['Institucion'].isin(instituciones_seleccionadas)]
-            
-                    # Aplicar filtro por Persona a Cargo
-                    if persona_cargo_seleccionada:
-                        data_filtrada = data_filtrada[data_filtrada['Persona a Cargo'].str.contains(persona_cargo_seleccionada, case=False)]
-                        
-                    # Mostrar cantidad de placas con los filtros aplicados
-                    st.write(f"### Cantidad de Placas Filtradas: {len(data_filtrada)}")
-                    # Mostrar los resultados filtrados
-                    if not data_filtrada.empty:
-                        st.write(data_filtrada)
-                    else:
-                        st.error("No se encontraron registros con los filtros aplicados.")
-            
+                # Mostrar los resultados filtrados
+                if not data_filtrada.empty:
+                    st.write(data_filtrada)
                 else:
-                    # Mostrar la base de datos completa si no se aplican filtros
-                    if not data.empty:
-                        st.write(data)
-                    else:
-                        st.error("No hay datos disponibles.")
-        except Exception as e:
-            st.error("Aún no hay datos registrados")
+                    st.error("No se encontraron registros con los filtros aplicados.")
+    except Exception as e:
+        st.error(f"Ocurrió un error: {e}")
+
 
     elif page == "Manual de Usuario":
         st.subheader("Manual de Usuario")
