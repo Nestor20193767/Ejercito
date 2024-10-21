@@ -4,7 +4,7 @@ import os
 from io import BytesIO
 from datetime import datetime
 from streamlit_option_menu import option_menu
-usuario = ''
+username = ''
 PASSWORD = st.secrets['password']
 icono_url = "https://raw.githubusercontent.com/Nestor20193767/Ejercito/main/ico_SIREVE-removebg-preview%20(1).png"
 logo_url = "https://raw.githubusercontent.com/Nestor20193767/Ejercito/main/PLA___2_-removebg-preview%20(1).png"
