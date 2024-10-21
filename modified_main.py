@@ -150,7 +150,7 @@ def main_page():
         tipo_accidente = st.text_area("Tipo de Accidente:")
         #persona_a_cargo = st.text_input("Persona a Cargo:")
         try:
-            persona_a_cargo = f"Usuario actual: {st.session_state['username']}"
+            persona_a_cargo = f"{st.session_state['username']}"
         except Exception as e:
             st.warning("Debes recargar la pagina para agregar el usuario")
         fecha = st.date_input("Fecha", datetime.today())
