@@ -1,9 +1,4 @@
 
-<style>
-    .stSidebarButton {
-        background-color: #e5f3ec;
-    }
-</style>
 import streamlit as st
 import pandas as pd
 import os
