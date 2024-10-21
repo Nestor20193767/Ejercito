@@ -105,7 +105,8 @@ def main_page():
         preliminar = st.text_input("Preliminar:")
         expediente = st.text_input("Expediente:")
         tipo_accidente = st.text_area("Tipo de Accidente:")
-        persona_a_cargo = st.text_input("Persona a Cargo:")
+        #persona_a_cargo = st.text_input("Persona a Cargo:")
+        persona_a_cargo = username
         fecha = st.date_input("Fecha", datetime.today())
 
         if st.button("Registrar"):
