@@ -99,15 +99,14 @@ def main_page():
         unsafe_allow_html=True
     )
     
-    st.sidebar.title("Navegación")
+    st.sidebar.subheader("Navegación")
     # page = st.sidebar.radio("Seleccione una página:", ["Registrar Placa", "Buscar Placa", "Contadores", "Mostrar Base de Datos"])
     # Sidebar con íconos
     with st.sidebar:
         page = option_menu(
-            menu_title="Seleccione una página",  # Título del menú
+            menu_title="Navegación",  # Título del menú
             options=["Registrar Placa", "Buscar Placa", "Contadores", "Mostrar Base de Datos"],  # Opciones del menú
             icons=["card-text", "search", "calculator", "database"],  # Íconos de cada opción
-            menu_icon="menu-up",  # Ícono del menú principal
             default_index=0,  # Índice predeterminado
         )
 
