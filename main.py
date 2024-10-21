@@ -154,7 +154,7 @@ def main_page():
             persona_a_cargo = f"{st.session_state['username']}"
         except Exception as e:
             st.warning("Debes recargar la pagina para agregar el usuario")
-        fecha = st.date_input("Fecha", datetime.today().strftime('%d_%m_%y'))
+        fecha = st.date_input("Fecha", datetime.today())
 
         if st.button("Registrar"):
             if placa and conductor:
@@ -167,7 +167,7 @@ def main_page():
                     'Expediente': [expediente],
                     'Tipo de accidente': [tipo_accidente],
                     'Persona a Cargo': [persona_a_cargo],
-                    'Fecha': [fecha]
+                    'Fecha': [fecha.strftime('%d_%m_%y')]
                 })
                 if data is None:
                     data = new_data
