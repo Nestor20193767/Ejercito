@@ -216,9 +216,10 @@ def main_page():
             
                 # Filtro por Persona a Cargo
                 persona_cargo_seleccionada = st.text_input("Buscar por Persona a Cargo:")
-            
+                bFiltros = st.button("Aplicar Filtros")
+                st.write(data)
                 # Mostrar la base de datos completa o filtrada
-                if st.button("Aplicar Filtros"):
+                if bFiltros:
                     data_filtrada = data.copy()  # Hacer una copia de los datos originales
                 
                     # Aplicar filtro por Estado
@@ -240,7 +241,8 @@ def main_page():
                     # Aplicar filtro por Persona a Cargo
                     if persona_cargo_seleccionada:
                         data_filtrada = data_filtrada[data_filtrada['Persona a Cargo'].str.contains(persona_cargo_seleccionada, case=False)]
-                        
+                   
+                     
                     # Mostrar cantidad de placas con los filtros aplicados
                     st.write(f"### Cantidad de Placas Filtradas: {len(data_filtrada)}")
                     
@@ -248,8 +250,8 @@ def main_page():
                     if not data_filtrada.empty:
                         st.write(data_filtrada)
                     else:
-                        #st.error("No se encontraron registros con los filtros aplicados.")
-                        st.write(data)
+                        st.error("No se encontraron registros con los filtros aplicados.")
+                        #st.write(data)
         except Exception as e:
             st.error(f"Aún no hay base de datos ")
 
