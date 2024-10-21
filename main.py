@@ -154,7 +154,7 @@ def main_page():
             persona_a_cargo = f"{st.session_state['username']}"
         except Exception as e:
             st.warning("Debes recargar la pagina para agregar el usuario")
-        fecha = st.date_input("Fecha", datetime.today())
+        fecha = st.date_input("Fecha", datetime.today(), format="DD/MM/YYYY")
 
         if st.button("Registrar"):
             if placa and conductor:
@@ -205,7 +205,7 @@ def main_page():
                 estado_seleccionado = st.selectbox("Seleccione el Estado:", ["Todos", "Pendiente", "Archivado"])
             
                 # Filtro por Fecha
-                fechas_seleccionadas = st.date_input("Fecha", value=datetime.today().strftime('%d/%m/%y'), max_value=datetime.today().strftime('%d/%m/%y'))
+                fechas_seleccionadas = st.date_input("Fecha", value=datetime.today(), max_value=datetime.today(), format="DD/MM/YYYY")
             
                 # Filtro por Conductor
                 conductor_seleccionado = st.text_input("Buscar por Conductor:")
