@@ -4,6 +4,7 @@ import os
 from io import BytesIO
 from datetime import datetime
 
+# Sheet creada: https://www.youtube.com/watch?v=jeZWv5PQJAk
 # Configuración de la contraseña
 PASSWORD = st.secrets['password'] # Cambia esto a la contraseña deseada
 # Iconos y Logos para las paginas
