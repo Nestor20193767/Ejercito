@@ -151,7 +151,7 @@ def main_page():
                 st.error("Aún no hay una base de datos.")
             else:
                 # Mostrar cantidad total de placas en la parte superior con tamaño de letra aumentado
-                st.markdown(f"<h2 style='font-size: 24px;'>Cantidad de Placas Totales: {len(data)}</h2>", unsafe_allow_html=True)
+                st.write(f"<h2 style='font-size: 24px;'>Cantidad de Placas Totales: {len(data)}</h2>", unsafe_allow_html=True)
                 
                 # Filtro por Estado
                 estado_seleccionado = st.selectbox("Seleccione el Estado:", ["Todos", "Pendiente", "Archivado"])
@@ -195,7 +195,7 @@ def main_page():
                         data_filtrada = data_filtrada[data_filtrada['Persona a Cargo'].str.contains(persona_cargo_seleccionada, case=False)]
                         
                     # Mostrar cantidad de placas con los filtros aplicados
-                    st.markdown(f"### Cantidad de Placas Filtradas: {len(data_filtrada)}")
+                    st.write(f"### Cantidad de Placas Filtradas: {len(data_filtrada)}")
                     # Mostrar los resultados filtrados
                     if not data_filtrada.empty:
                         st.write(data_filtrada)
