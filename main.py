@@ -319,7 +319,8 @@ def main_page():
 
     elif page == "Manual de Usuario":
         st.subheader("Manual de Usuario")
-        st.write("Aquí irá el manual de usuario")
+        st.write("Aquí irá el manual de usuario ")
+        st.write("dfcghjklmasfdgfdkjsldsbfhjkdsfjbhfasdksjlfbvdjvdjskdvjbhkjasksfhdsjkbhxfvdsnbfhdmcksfjbgfjksfjxbdkfslkñfkxbjkfjlsdfkjsnxbkfdzsfjlbhdxfksflbkxfjzlsdñjxbkfjlzsdjbkxfljdbnxfkñdxbfnlkdnxbkfdsdbnklfdksñnxbklfkñsdnkxbdlflsnkxbldfznfkzdxfkkdxjlkjefsdokfdskjdoxkaewjjxdfkekjxbnkdfjejflxbkfjdelxbkfjdjnkdldfnkefkdlnjfkklxbjnfkkd")
 
     st.sidebar.subheader("Descargar Registros")
     download_option = st.sidebar.selectbox("Seleccione qué registros desea descargar:", ["Registro completo", "Policía", "Ejército", "Fuerza Aérea", "Naval"])
