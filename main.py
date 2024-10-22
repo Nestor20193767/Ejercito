@@ -88,6 +88,48 @@ def main_page():
     def save_data(data):
         data.to_csv(DATABASE_FILE, sep='|', index=False)
 
+    # Función para mostrar el menú de edición con los datos ya llenados
+    def edit_menu(result):
+        st.subheader("Edición de Datos")
+        
+        # Prellenar los campos con los valores actuales
+        institucion = st.selectbox("Institución:", ["Policía", "Ejército", "Fuerza Aérea", "Naval"], index=["Policía", "Ejército", "Fuerza Aérea", "Naval"].index(result['Institucion'].values[0]))
+        placa = st.text_input("Placa del Vehículo:", result['Placa'].values[0])
+        conductor = st.text_input("Conductor Designado:", result['Conductor Designado'].values[0])
+        estado = st.selectbox("Estado:", ["Pendiente", "Archivado"], index=["Pendiente", "Archivado"].index(result['Estado'].values[0]))
+        preliminar = st.text_input("Preliminar:", result['Preliminar'].values[0])
+        expediente = st.text_input("Expediente:", result['Expediente'].values[0])
+        tipo_accidente = st.text_area("Tipo de Accidente:", result['Tipo de accidente'].values[0])
+        persona_a_cargo = st.text_input("Persona a Cargo:", result['Persona a Cargo'].values[0])
+        fecha = st.date_input("Fecha:", datetime.strptime(result['Fecha'].values[0], '%d/%m/%y'))
+    
+        # Botones
+        if st.button("Guardar Cambios"):
+            edit_data(result['Placa'].values[0], placa, conductor, institucion, estado, preliminar, expediente, tipo_accidente, persona_a_cargo, fecha)
+            st.success("Cambios guardados exitosamente.")
+        if st.button("Atrás"):
+            st.warning("No se han realizado cambios.")
+
+    # Función para actualizar los datos en la base de datos
+    def edit_data(original_placa, placa, conductor, institucion, estado, preliminar, expediente, tipo_accidente, persona_a_cargo, fecha):
+        global data
+        
+        # Buscar el registro de la placa original y modificarlo
+        index = data[data['Placa'] == original_placa].index
+        if not index.empty:
+            data.at[index, 'Placa'] = placa
+            data.at[index, 'Conductor Designado'] = conductor
+            data.at[index, 'Institucion'] = institucion
+            data.at[index, 'Estado'] = estado
+            data.at[index, 'Preliminar'] = preliminar
+            data.at[index, 'Expediente'] = expediente
+            data.at[index, 'Tipo de accidente'] = tipo_accidente
+            data.at[index, 'Persona a Cargo'] = persona_a_cargo
+            data.at[index, 'Fecha'] = fecha.strftime('%d/%m/%y')
+            
+            # Guardar cambios en la base de datos
+            save_data(data)
+        
     # Filtrar los datos por institución
     def filter_by_type(data, institucion):
         return data[data['Institucion'] == institucion]
@@ -178,42 +220,20 @@ def main_page():
             else:
                 st.error("Debe completar todos los campos para registrar una nueva placa.")
 
-    # Cambios de la pagina Buscar Placa
+    # Cambios a la placa
+    # Actualización en la página "Buscar Placa"
     elif page == "Buscar Placa":
         st.subheader("Buscar Placa Registrada")
         search_placa = st.text_input("Buscar por Placa:")
-        
         if st.button("Buscar"):
             if data is not None:
                 result = data[data['Placa'] == search_placa]
                 if not result.empty:
                     st.write(result)
                     
-                    # Agregar botón para editar datos
+                    # Mostrar botón de edición si la placa es encontrada
                     if st.button("Edición de Datos"):
-                        # Mostrar formulario con valores precargados
-                        institucion = st.selectbox("Institución:", ["Policía", "Ejército", "Fuerza Aérea", "Naval"], index=["Policía", "Ejército", "Fuerza Aérea", "Naval"].index(result['Institucion'].values[0]))
-                        placa = st.text_input("Placa del Vehículo:", value=result['Placa'].values[0])
-                        conductor = st.text_input("Conductor Designado:", value=result['Conductor Designado'].values[0])
-                        estado = st.selectbox("Estado:", ["Pendiente", "Archivado"], index=["Pendiente", "Archivado"].index(result['Estado'].values[0]))
-                        preliminar = st.text_input("Preliminar:", value=result['Preliminar'].values[0])
-                        expediente = st.text_input("Expediente:", value=result['Expediente'].values[0])
-                        tipo_accidente = st.text_area("Tipo de Accidente:", value=result['Tipo de accidente'].values[0])
-                        persona_a_cargo = result['Persona a Cargo'].values[0]
-                        fecha = st.date_input("Fecha", value=pd.to_datetime(result['Fecha'].values[0], format='%d/%m/%y'))
-    
-                        # Botones para guardar o regresar
-                        if st.button("Guardar Cambios"):
-                            # Actualizar los datos en la base de datos
-                            data.loc[data['Placa'] == search_placa, ['Institucion', 'Conductor Designado', 'Estado', 'Preliminar', 'Expediente', 'Tipo de accidente', 'Fecha']] = [
-                                institucion, conductor, estado, preliminar, expediente, tipo_accidente, fecha.strftime('%d/%m/%y')
-                            ]
-                            save_data(data)  # Guardar los cambios en la base de datos
-                            st.success(f"Los datos de la placa {placa} han sido actualizados.")
-    
-                        if st.button("Atrás"):
-                            # Omitir cambios y regresar
-                            st.warning("Los cambios no han sido guardados.")
+                        edit_menu(result)  # Llamar al menú de edición con los datos cargados
                 else:
                     st.error("Placa no encontrada.")
             else:
