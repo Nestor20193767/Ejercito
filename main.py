@@ -320,25 +320,6 @@ def main_page():
     elif page == "Manual de Usuario":
         st.subheader("Manual de Usuario")
         st.write("Aquí irá el manual de usuario ")
-        st.subheader("Buscar Placa Registrada")
-        search_placa = st.text_input("Buscar por Placa:")
-        if st.button("Buscar"):
-            st.write('Se preciono buscar')
-            if data is not None:
-                result = data[data['Placa'] == search_placa]
-                st.write('La data no es None')
-                if not result.empty:
-                    st.write(result)
-                    Edicion = st.button("Edición de Datos")
-                    
-                    # Mostrar botón de edición si la placa es encontrada
-                    if Edicion:
-                        st.write('Se preciono Editar')
-                        #edit_menu(result)  # Llamar al menú de edición con los datos cargados
-                else:
-                    st.error("Placa no encontrada.")
-            else:
-                st.error("Aún no hay una base de datos.")
         
 
     st.sidebar.subheader("Descargar Registros")
