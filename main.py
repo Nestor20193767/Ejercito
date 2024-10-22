@@ -49,7 +49,9 @@ def login_page():
             st.session_state['logged_in'] = True
             st.session_state.authenticated = True  # Cambiamos el estado de autenticación
             st.session_state['username'] = username  # Guardar el nombre de usuario en session_state
-            st.success(f"Bienvenido, {st.session_state['username']}")  # Mostrar mensaje de bienvenida
+            st.warning(f"Usted se esta Identificando como: {st.session_state['username']}, por lo que será \n
+            monitoreado y almacenado en cualquier cambio realiazdo.\n 
+            Presione Iniciar Sesión una segunda vez si esta deacuerdo")  # Mostrar mensaje de bienvenida
             usuario = st.session_state['username']
         else:
             st.error("Contraseña incorrecta.")
