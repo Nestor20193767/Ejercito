@@ -178,18 +178,47 @@ def main_page():
             else:
                 st.error("Debe completar todos los campos para registrar una nueva placa.")
 
+    # Cambios de la pagina Buscar Placa
     elif page == "Buscar Placa":
         st.subheader("Buscar Placa Registrada")
         search_placa = st.text_input("Buscar por Placa:")
+        
         if st.button("Buscar"):
             if data is not None:
                 result = data[data['Placa'] == search_placa]
                 if not result.empty:
                     st.write(result)
+                    
+                    # Agregar botón para editar datos
+                    if st.button("Edición de Datos"):
+                        # Mostrar formulario con valores precargados
+                        institucion = st.selectbox("Institución:", ["Policía", "Ejército", "Fuerza Aérea", "Naval"], index=["Policía", "Ejército", "Fuerza Aérea", "Naval"].index(result['Institucion'].values[0]))
+                        placa = st.text_input("Placa del Vehículo:", value=result['Placa'].values[0])
+                        conductor = st.text_input("Conductor Designado:", value=result['Conductor Designado'].values[0])
+                        estado = st.selectbox("Estado:", ["Pendiente", "Archivado"], index=["Pendiente", "Archivado"].index(result['Estado'].values[0]))
+                        preliminar = st.text_input("Preliminar:", value=result['Preliminar'].values[0])
+                        expediente = st.text_input("Expediente:", value=result['Expediente'].values[0])
+                        tipo_accidente = st.text_area("Tipo de Accidente:", value=result['Tipo de accidente'].values[0])
+                        persona_a_cargo = result['Persona a Cargo'].values[0]
+                        fecha = st.date_input("Fecha", value=pd.to_datetime(result['Fecha'].values[0], format='%d/%m/%y'))
+    
+                        # Botones para guardar o regresar
+                        if st.button("Guardar Cambios"):
+                            # Actualizar los datos en la base de datos
+                            data.loc[data['Placa'] == search_placa, ['Institucion', 'Conductor Designado', 'Estado', 'Preliminar', 'Expediente', 'Tipo de accidente', 'Fecha']] = [
+                                institucion, conductor, estado, preliminar, expediente, tipo_accidente, fecha.strftime('%d/%m/%y')
+                            ]
+                            save_data(data)  # Guardar los cambios en la base de datos
+                            st.success(f"Los datos de la placa {placa} han sido actualizados.")
+    
+                        if st.button("Atrás"):
+                            # Omitir cambios y regresar
+                            st.warning("Los cambios no han sido guardados.")
                 else:
                     st.error("Placa no encontrada.")
             else:
                 st.error("Aún no hay una base de datos.")
+
 
     elif page == "Base de Datos":
         try:
