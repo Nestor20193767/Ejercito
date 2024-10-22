@@ -234,8 +234,27 @@ def main_page():
                 st.write('La data no es None')
                 if not result.empty:
                     st.write(result)
-                    Edicion = st.button("Edición de Datos")
-                    
+                    #Edicion = st.button("Edición de Datos")
+                    st.subheader("Edición de Datos")
+        
+                    # Prellenar los campos con los valores actuales
+                    institucion = st.selectbox("Institución:", ["Policía", "Ejército", "Fuerza Aérea", "Naval"], index=["Policía", "Ejército", "Fuerza Aérea", "Naval"].index(result['Institucion'].values[0]))
+                    placa = st.text_input("Placa del Vehículo:", result['Placa'].values[0])
+                    conductor = st.text_input("Conductor Designado:", result['Conductor Designado'].values[0])
+                    estado = st.selectbox("Estado:", ["Pendiente", "Archivado"], index=["Pendiente", "Archivado"].index(result['Estado'].values[0]))
+                    preliminar = st.text_input("Preliminar:", result['Preliminar'].values[0])
+                    expediente = st.text_input("Expediente:", result['Expediente'].values[0])
+                    tipo_accidente = st.text_area("Tipo de Accidente:", result['Tipo de accidente'].values[0])
+                    persona_a_cargo = st.text_input("Persona a Cargo:", result['Persona a Cargo'].values[0])
+                    fecha = st.date_input("Fecha:", datetime.strptime(result['Fecha'].values[0], '%d/%m/%y'))
+                
+                    # Botones
+                    if st.button("Guardar Cambios"):
+                        edit_data(data, result['Placa'].values[0], placa, conductor, institucion, estado, preliminar, expediente, tipo_accidente, persona_a_cargo, fecha)
+                        st.success("Cambios guardados exitosamente.")
+                    if st.button("Atrás"):
+                        st.warning("No se han realizado cambios.")
+                        
                     # Mostrar botón de edición si la placa es encontrada
                     if Edicion:
                         st.write('Se preciono Editar')
