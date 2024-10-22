@@ -284,34 +284,30 @@ def main_page():
                     st.warning('Aun no hay base de datos cargada')
                 
                 if bFiltros:
-                    data_filtrada = data.copy()  # Crear una copia de los datos para aplicar los filtros
-                
-                    # Filtro por Estado
+                    data_filtrada = data.copy()
+                    
+                    # Filtros
                     if estado_seleccionado != "Todos":
                         data_filtrada = data_filtrada[data_filtrada['Estado'] == estado_seleccionado]
                     
-                    # Filtro por Fecha
-                    data['Fecha'] = pd.to_datetime(data['Fecha'], format='%d/%m/%y')
                     if fechas_seleccionadas:
-                        data_filtrada = data_filtrada[data_filtrada['Fecha'] == fechas_seleccionadas]
+                        data_filtrada = data_filtrada[data_filtrada['Fecha'] == fechas_seleccionadas.strftime('%d/%m/%y')]
                     
-                    # Filtro por Conductor
                     if conductor_seleccionado:
                         data_filtrada = data_filtrada[data_filtrada['Conductor Designado'].str.contains(conductor_seleccionado, case=False)]
                     
-                    # Filtro por Institución
                     if instituciones_seleccionadas:
                         data_filtrada = data_filtrada[data_filtrada['Institucion'].isin(instituciones_seleccionadas)]
                     
-                    # Filtro por Persona a Cargo
                     if persona_cargo_seleccionada:
                         data_filtrada = data_filtrada[data_filtrada['Persona a Cargo'].str.contains(persona_cargo_seleccionada, case=False)]
                     
-                    # Mostrar la tabla filtrada
+                    # Mostrar los resultados filtrados
                     if not data_filtrada.empty:
                         st.write(data_filtrada)
                     else:
-                        st.warning("No se encontraron resultados con los filtros aplicados.")
+                        st.warning('No se encontraron resultados con los filtros seleccionados.')
+
                 
         except Exception as e:
                         st.error(f"Aún no hay base de datos ")
