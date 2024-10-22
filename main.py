@@ -178,7 +178,7 @@ def main_page():
         page = option_menu(
             menu_title="Navegación",
             options=["Registrar Placa Oficial", "Buscar Placa", "Base de Datos", "Manual de Usuario"],
-            icons=["card-text", "search", "database", "book"],
+            icons=["card-text", "search","database", "book"],
             default_index=0
         )
 
@@ -232,10 +232,8 @@ def main_page():
         st.subheader("Buscar Placa Registrada")
         search_placa = st.text_input("Buscar por Placa:")
         if st.button("Buscar"):
-            st.write('Se preciono buscar')
             if data is not None:
                 result = data[data['Placa'] == search_placa]
-                st.write('La data no es None')
                 if not result.empty:
                     st.write(result)
                     Edicion = st.button("Edición de Datos")
