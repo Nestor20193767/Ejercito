@@ -92,7 +92,7 @@ def main_page():
         data.to_csv(DATABASE_FILE, sep='|', index=False)
 
     # Función para mostrar el menú de edición con los datos ya llenados
-    def edit_menu(result):
+    def edit_menu(data, result):
         st.subheader("Edición de Datos")
         
         # Prellenar los campos con los valores actuales
@@ -108,14 +108,13 @@ def main_page():
     
         # Botones
         if st.button("Guardar Cambios"):
-            edit_data(result['Placa'].values[0], placa, conductor, institucion, estado, preliminar, expediente, tipo_accidente, persona_a_cargo, fecha)
+            edit_data(data, result['Placa'].values[0], placa, conductor, institucion, estado, preliminar, expediente, tipo_accidente, persona_a_cargo, fecha)
             st.success("Cambios guardados exitosamente.")
         if st.button("Atrás"):
             st.warning("No se han realizado cambios.")
 
     # Función para actualizar los datos en la base de datos
-    def edit_data(original_placa, placa, conductor, institucion, estado, preliminar, expediente, tipo_accidente, persona_a_cargo, fecha):
-        global data
+    def edit_data(data, original_placa, placa, conductor, institucion, estado, preliminar, expediente, tipo_accidente, persona_a_cargo, fecha):
         
         # Buscar el registro de la placa original y modificarlo
         index = data[data['Placa'] == original_placa].index
@@ -240,7 +239,7 @@ def main_page():
                     # Mostrar botón de edición si la placa es encontrada
                     if Edicion:
                         st.write('Se preciono Editar')
-                        #edit_menu(result)  # Llamar al menú de edición con los datos cargados
+                        edit_menu(data, result)  # Llamar al menú de edición con los datos cargados
                 else:
                     st.error("Placa no encontrada.")
             else:
