@@ -288,22 +288,28 @@ def main_page():
                     
                     # Filtros
                     if estado_seleccionado != "Todos":
+                        st.write('Primer Filtro')
                         data_filtrada = data_filtrada[data_filtrada['Estado'] == estado_seleccionado]
                     
                     if fechas_seleccionadas:
+                        st.write('Segundo Filtro')
                         data_filtrada = data_filtrada[data_filtrada['Fecha'] == fechas_seleccionadas.strftime('%d/%m/%y')]
                     
                     if conductor_seleccionado:
+                        st.write('Tercer Filtro')
                         data_filtrada = data_filtrada[data_filtrada['Conductor Designado'].str.contains(conductor_seleccionado, case=False)]
                     
                     if instituciones_seleccionadas:
+                        st.write('Cuarto Filtro')
                         data_filtrada = data_filtrada[data_filtrada['Institucion'].isin(instituciones_seleccionadas)]
                     
                     if persona_cargo_seleccionada:
+                        st.write('QUinto Filtro')
                         data_filtrada = data_filtrada[data_filtrada['Persona a Cargo'].str.contains(persona_cargo_seleccionada, case=False)]
                     
                     # Mostrar los resultados filtrados
                     if not data_filtrada.empty:
+                        st.write('Si deben haber datos')
                         st.write(data_filtrada)
                     else:
                         st.warning('No se encontraron resultados con los filtros seleccionados.')
