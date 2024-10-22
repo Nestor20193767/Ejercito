@@ -220,6 +220,8 @@ def main_page():
                 
                 if not data.empty: 
                     st.write(data)
+                else:
+                    st.warning('Aun no hay base de datos cargada')
                 
                 # Mostrar la base de datos completa o filtrada
                 if bFiltros:
