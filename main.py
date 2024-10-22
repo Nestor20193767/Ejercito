@@ -312,6 +312,7 @@ def main_page():
                         st.write('Si deben haber datos')
                         st.write(data_filtrada)
                     else:
+                        st.write(data_filtrada)
                         st.warning('No se encontraron resultados con los filtros seleccionados.')
 
                 
