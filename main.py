@@ -235,10 +235,10 @@ def main_page():
                 st.write('La data no es None')
                 if not result.empty:
                     st.write(result)
-                    edit_menu(result)  # Llamar al menú de edición con los datos cargados
+                    Edicion = st.button("Edición de Datos")
                     
                     # Mostrar botón de edición si la placa es encontrada
-                    if st.button("Edición de Datos"):
+                    if Edicion:
                         st.write('Se preciono Editar')
                         #edit_menu(result)  # Llamar al menú de edición con los datos cargados
                 else:
