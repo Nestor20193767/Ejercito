@@ -283,42 +283,38 @@ def main_page():
                 else:
                     st.warning('Aun no hay base de datos cargada')
                 
-                # Mostrar la base de datos completa o filtrada
                 if bFiltros:
-                    data_filtrada = data.copy()  # Hacer una copia de los datos originales
+                    data_filtrada = data.copy()  # Crear una copia de los datos para aplicar los filtros
                 
-                    # Aplicar filtro por Estado
+                    # Filtro por Estado
                     if estado_seleccionado != "Todos":
                         data_filtrada = data_filtrada[data_filtrada['Estado'] == estado_seleccionado]
-            
-                    # Aplicar filtro por Fecha
+                    
+                    # Filtro por Fecha
+                    data['Fecha'] = pd.to_datetime(data['Fecha'], format='%d/%m/%y')
                     if fechas_seleccionadas:
-                        data_filtrada = data_filtrada[data_filtrada['Fecha'] == pd.to_datetime(fechas_seleccionadas)]
-    
-                    # Aplicar filtro por Conductor
+                        data_filtrada = data_filtrada[data_filtrada['Fecha'] == fechas_seleccionadas]
+                    
+                    # Filtro por Conductor
                     if conductor_seleccionado:
                         data_filtrada = data_filtrada[data_filtrada['Conductor Designado'].str.contains(conductor_seleccionado, case=False)]
-            
-                    # Aplicar filtro por Instituciones
+                    
+                    # Filtro por Institución
                     if instituciones_seleccionadas:
                         data_filtrada = data_filtrada[data_filtrada['Institucion'].isin(instituciones_seleccionadas)]
-            
-                    # Aplicar filtro por Persona a Cargo
+                    
+                    # Filtro por Persona a Cargo
                     if persona_cargo_seleccionada:
                         data_filtrada = data_filtrada[data_filtrada['Persona a Cargo'].str.contains(persona_cargo_seleccionada, case=False)]
-                   
-                     
-                    # Mostrar cantidad de placas con los filtros aplicados
-                    st.write(f"### Cantidad de Placas Filtradas: {len(data_filtrada)}")
                     
-                    # Mostrar los resultados filtrados
+                    # Mostrar la tabla filtrada
                     if not data_filtrada.empty:
                         st.write(data_filtrada)
                     else:
-                        st.error("No se encontraron registros con los filtros aplicados.")
-                        #st.write(data)
-        except Exception as e:
-            st.error(f"Aún no hay base de datos ")
+                        st.warning("No se encontraron resultados con los filtros aplicados.")
+                
+                        except Exception as e:
+                            st.error(f"Aún no hay base de datos ")
 
 
     elif page == "Manual de Usuario":
