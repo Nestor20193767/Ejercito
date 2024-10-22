@@ -94,7 +94,7 @@ def main_page():
 
     # Función para descargar los datos en formato Excel
     def download_excel(data, download_option):
-        today = datetime.today().strftime('%d/%m/%y')
+        today = datetime.today().strftime('%d_%m_%y')
         file_name = f"{today}_{download_option}.xlsx"
     
         output = BytesIO()
@@ -167,7 +167,7 @@ def main_page():
                     'Expediente': [expediente],
                     'Tipo de accidente': [tipo_accidente],
                     'Persona a Cargo': [persona_a_cargo],
-                    'Fecha': [fecha.strftime('%d_%m_%y')]
+                    'Fecha': [fecha.strftime('%d/%m/%y')]
                 })
                 if data is None:
                     data = new_data
