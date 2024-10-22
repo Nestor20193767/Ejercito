@@ -313,8 +313,8 @@ def main_page():
                     else:
                         st.warning("No se encontraron resultados con los filtros aplicados.")
                 
-                        except Exception as e:
-                            st.error(f"Aún no hay base de datos ")
+        except Exception as e:
+                        st.error(f"Aún no hay base de datos ")
 
 
     elif page == "Manual de Usuario":
