@@ -226,13 +226,16 @@ def main_page():
         st.subheader("Buscar Placa Registrada")
         search_placa = st.text_input("Buscar por Placa:")
         if st.button("Buscar"):
+            st.write('Se preciono buscar')
             if data is not None:
                 result = data[data['Placa'] == search_placa]
+                st.write('La data no es None')
                 if not result.empty:
                     st.write(result)
                     
                     # Mostrar botón de edición si la placa es encontrada
                     if st.button("Edición de Datos"):
+                        st.write('Se preciono Editar')
                         edit_menu(result)  # Llamar al menú de edición con los datos cargados
                 else:
                     st.error("Placa no encontrada.")
