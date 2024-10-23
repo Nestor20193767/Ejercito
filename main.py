@@ -19,10 +19,11 @@ st.set_page_config(page_icon=icono_url, page_title='SIREVE', layout="wide")
 def login_page():
     # https://discuss.streamlit.io/t/pop-up-windows-in-streamlit/62762/3
     import streamlit.components.v1 as components
-    dia = datetime.day
-    #if dia == 23:
-    mycode = "<script>alert('¡Se recomienda descargar la base de datos!')</script>"
-    components.html(mycode, height=0, width=0)
+    dia = datetime.now().day()
+    st.write(dia)
+    if dia == 23:
+        mycode = "<script>alert('¡Se recomienda descargar la base de datos!')</script>"
+        components.html(mycode, height=0, width=0)
     
     st.markdown(
         """
