@@ -15,17 +15,18 @@ icono_url = "https://raw.githubusercontent.com/Nestor20193767/Ejercito/main/ico_
 logo_url = "https://raw.githubusercontent.com/Nestor20193767/Ejercito/main/PLA___2_-removebg-preview%20(1).png"
 st.set_page_config(page_icon=icono_url, page_title='SIREVE', layout="wide")
 
-# Función de inicio de sesión
-def login_page():
+# Popup wondow de aviso para descargar cada cierto dia al mes
+def recordar_descargar_baseDeDatos(dia_exacto):
     # https://discuss.streamlit.io/t/pop-up-windows-in-streamlit/62762/3
     import streamlit.components.v1 as components
     hoy = datetime.now()
     dia = hoy.day
-    st.write(dia)
-    if dia == 23:
+    if dia == dia_exacto:
         mycode = "<script>alert('¡Se recomienda descargar la base de datos!')</script>"
         components.html(mycode, height=0, width=0)
-    
+        
+# Función de inicio de sesión
+def login_page():
     st.markdown(
         """
         <style>
@@ -68,6 +69,7 @@ def login_page():
 
 # Función para mostrar la página principal
 def main_page():
+    recordar_descargar_baseDeDatos(23)
     st.markdown(
         """
         <style>
