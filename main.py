@@ -17,6 +17,11 @@ st.set_page_config(page_icon=icono_url, page_title='SIREVE', layout="wide")
 
 # Función de inicio de sesión
 def login_page():
+    import streamlit.components.v1 as components
+
+    mycode = "<script>alert('This box is me!')</script>"
+    components.html(mycode, height=0, width=0)
+    
     st.markdown(
         """
         <style>
