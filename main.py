@@ -20,9 +20,9 @@ def login_page():
     # https://discuss.streamlit.io/t/pop-up-windows-in-streamlit/62762/3
     import streamlit.components.v1 as components
     dia = datetime.day
-    if dia == 23:
-        mycode = "<script>alert('¡Se recomienda descargar la base de datos!')</script>"
-        components.html(mycode, height=0, width=0)
+    #if dia == 23:
+    mycode = "<script>alert('¡Se recomienda descargar la base de datos!')</script>"
+    components.html(mycode, height=0, width=0)
     
     st.markdown(
         """
