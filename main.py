@@ -18,24 +18,15 @@ st.set_page_config(page_icon=icono_url, page_title='SIREVE', layout="wide")
 # Popup window de aviso para descargar cada cierto dia al mes
 def recordar_descargar_baseDeDatos(dia_exacto):
     # https://discuss.streamlit.io/t/pop-up-windows-in-streamlit/62762/3
-    #import streamlit.components.v1 as components
+    import streamlit.components.v1 as components
     hoy = datetime.now()
     dia = hoy.day
     if dia == dia_exacto:
         
-        #mycode = "<script>alert('¡Se recomienda descargar la base de datos!')</script>"
-        #components.html(mycode, height=0, width=0)
+        mycode = "<script>alert('¡Se recomienda descargar la base de datos!')</script>"
+        components.html(mycode, height=0, width=0)
 
-            # Mostrar el modal
-        with st.modal("Record a screencast"):
-            st.markdown("**Due to limitations with some browsers, this feature is only supported on recent desktop versions of Chrome, Firefox, and Edge.**")
-    
-            # Insertar un ícono (opcional)
-            st.image("https://link-to-icon.png", width=50)  # Aquí puedes colocar un ícono similar al que aparece en tu imagen.
-    
-            # Cerrar el modal cuando el usuario haga clic en 'Close'
-            if st.button("Close"):
-                st.session_state["modal_open"] = False
+            
         
 # Función de inicio de sesión
 def login_page():
