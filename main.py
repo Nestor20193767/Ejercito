@@ -16,17 +16,41 @@ logo_url = "https://raw.githubusercontent.com/Nestor20193767/Ejercito/main/PLA__
 st.set_page_config(page_icon=icono_url, page_title='SIREVE', layout="wide")
 
 # Popup window de aviso para descargar cada cierto dia al mes
-def recordar_descargar_baseDeDatos(dia_exacto):
-    # https://discuss.streamlit.io/t/pop-up-windows-in-streamlit/62762/3
-    import streamlit.components.v1 as components
-    hoy = datetime.now()
-    dia = hoy.day
-    if dia == dia_exacto:
-        
-        mycode = "<script>alert('¡Se recomienda descargar la base de datos!')</script>"
-        components.html(mycode, height=0, width=0)
+@st.dialog("Recordatorio")
+def recordatorio_descargas():
+        st.markdown(
+        """
+        <style>
+        .header {
+            display: flex;
+            align-items: center;
+        }
+        .header img {
+            margin-right: 20px;
+        }
+        </style>
+        <div class="header">
+            <img src="https://raw.githubusercontent.com/Nestor20193767/Ejercito/main/PLA___2_-removebg-preview%20(1).png" width="60">
+            <h1 style="margin: 0;">SIREVE</h1>
+        </div>
+        """, unsafe_allow_html=True
+    )
+        st.write(f"¡Se recomienda descargar la base de datos!")
+        #reason = st.text_input("Because...")
 
+        if st.button("Descargar"):
+            st.session_state.recordatorio_descargas = 'hola'
+            st.rerun()
             
+def recordar_descargar_baseDeDatos(dia_exacto):
+    if dia == dia_exacto:
+    if "recordatorio_descargas" not in st.session_state:
+        recordatorio_descargas()
+
+    else:
+        st.write('Descargado!')  
+
+        
         
 # Función de inicio de sesión
 def login_page():
@@ -72,7 +96,7 @@ def login_page():
 
 # Función para mostrar la página principal
 def main_page():
-    recordar_descargar_baseDeDatos(24)
+    recordar_descargar_baseDeDatos(25)
     st.markdown(
         """
         <style>
