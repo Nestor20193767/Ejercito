@@ -43,6 +43,8 @@ def recordatorio_descargas():
             st.rerun()
             
 def recordar_descargar_baseDeDatos(dia_exacto):
+    hoy = datetime.now()
+    dia = hoy.day
     if dia == dia_exacto:
         if "recordatorio_descargas" not in st.session_state:
             recordatorio_descargas()
