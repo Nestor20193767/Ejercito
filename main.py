@@ -44,11 +44,11 @@ def recordatorio_descargas():
             
 def recordar_descargar_baseDeDatos(dia_exacto):
     if dia == dia_exacto:
-    if "recordatorio_descargas" not in st.session_state:
-        recordatorio_descargas()
-
-    else:
-        st.write('Descargado!')  
+        if "recordatorio_descargas" not in st.session_state:
+            recordatorio_descargas()
+    
+        else:
+            st.write('Descargado!')  
 
         
         
